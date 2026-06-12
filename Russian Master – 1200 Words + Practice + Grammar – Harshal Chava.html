@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Russian Master – Harshal Chavan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#CC0000;--gold:#FFD700;--dark:#0D0D0D;--panel:#141414;--card:#1C1C1C;--border:#2A2A2A;--text:#F0EDE6;--muted:#888;--accent:#E8C547;--blue:#4A90D9;--green:#5CB85C;--ind-orange:#FF9933;--ind-green:#138808;--purple:#9B59B6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dark);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;}
+.dev-tag{position:fixed;top:12px;right:14px;z-index:999;display:flex;align-items:center;gap:7px;background:rgba(18,18,18,0.93);border:1px solid #333;border-radius:24px;padding:5px 13px 5px 9px;backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+.dev-flag{display:flex;flex-direction:column;width:20px;border-radius:2px;overflow:hidden;}
+.dev-flag span{height:6px;display:block;}
+.dev-flag .f1{background:#FF9933;}.dev-flag .f2{background:#fff;display:flex;align-items:center;justify-content:center;}.dev-flag .f2::after{content:'●';font-size:4px;color:#000080;}.dev-flag .f3{background:#138808;}
+.dev-name{font-size:12px;font-weight:800;}.dev-name .n1{color:#FF9933;}.dev-name .n2{color:#fff;}.dev-name .n3{color:#138808;}
+header{background:linear-gradient(135deg,#1a0000 0%,#0D0D0D 40%,#000820 100%);border-bottom:3px solid var(--red);padding:28px 24px 20px;text-align:center;position:relative;overflow:hidden;}
+header::before{content:'РУССКИЙ';position:absolute;font-family:'Playfair Display',serif;font-size:110px;font-weight:900;color:rgba(204,0,0,0.05);top:-15px;left:50%;transform:translateX(-50%);white-space:nowrap;pointer-events:none;}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,44px);font-weight:900;position:relative;}
+header h1 span{color:var(--red);}
+header p{color:var(--muted);margin-top:6px;font-size:12px;letter-spacing:1px;text-transform:uppercase;}
+.flag-stripe{display:flex;height:4px;border-radius:3px;overflow:hidden;max-width:180px;margin:14px auto 0;}
+.flag-stripe div{flex:1;}
+.flag-stripe .w{background:#fff;}.flag-stripe .b{background:#003DA5;}.flag-stripe .r{background:#CC0000;}
+.nav-tabs{display:flex;background:var(--panel);border-bottom:2px solid var(--border);}
+.nav-tab{flex:1;padding:13px 6px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;color:var(--muted);}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(255,215,0,0.05);}
+.stats-bar{display:flex;justify-content:center;gap:18px;padding:12px 16px;background:var(--panel);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+.stat{text-align:center;}.stat .num{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:var(--gold);}.stat .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.progress-wrap{min-width:150px;}.progress-pct{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:var(--gold);}
+.progress-bar-container{background:var(--border);border-radius:4px;height:7px;margin:3px 0 0;overflow:hidden;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:4px;transition:width 0.5s ease;width:0%;}
+.controls{display:flex;gap:10px;padding:12px 16px;background:var(--panel);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+.search-box{flex:1;min-width:180px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:var(--text);font-family:'Nunito',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s;}
+.search-box:focus{border-color:var(--red);}.search-box::placeholder{color:var(--muted);}
+.section-manager-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 13px;color:var(--text);font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.section-manager-btn:hover{border-color:var(--gold);color:var(--gold);}
+.sm-panel{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2000;display:none;}
+.sm-panel.open{display:flex;}
+.sm-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);}
+.sm-drawer{position:absolute;left:0;top:0;bottom:0;width:min(340px,92vw);background:#181818;border-right:2px solid var(--border);overflow-y:auto;z-index:1;display:flex;flex-direction:column;}
+.sm-header{padding:18px 16px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#181818;z-index:2;}
+.sm-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--gold);}
+.sm-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;}.sm-close:hover{color:var(--text);}
+.sm-global-btns{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);}
+.sm-gbtn{flex:1;padding:8px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+.sm-gbtn.select-all{border-color:var(--green);color:var(--green);}.sm-gbtn.select-all:hover{background:rgba(92,184,92,0.15);}
+.sm-gbtn.clear-all{border-color:var(--red);color:var(--red);}.sm-gbtn.clear-all:hover{background:rgba(204,0,0,0.15);}
+.sm-section-list{padding:10px 10px 20px;}
+.sm-section-item{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+.sm-sec-header{display:flex;align-items:center;gap:10px;padding:11px 13px;cursor:default;background:var(--card);}
+.sm-sec-icon{font-size:16px;}.sm-sec-name{font-size:13px;font-weight:700;flex:1;}
+.sm-sec-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-right:6px;}
+.sm-sec-btns{display:flex;gap:6px;}
+.sm-sec-btn{padding:4px 9px;border-radius:6px;border:1px solid var(--border);background:transparent;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;}
+.sm-sec-btn.mark{color:var(--green);border-color:var(--green);}.sm-sec-btn.mark:hover{background:rgba(92,184,92,0.2);}
+.sm-sec-btn.clear{color:var(--red);border-color:var(--red);}.sm-sec-btn.clear:hover{background:rgba(204,0,0,0.2);}
+.sm-sec-progress{height:3px;background:var(--border);}
+.sm-sec-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));transition:width 0.3s;}
+.filter-row{display:flex;gap:7px;flex-wrap:wrap;padding:0 16px 11px;background:var(--panel);border-bottom:1px solid var(--border);}
+.chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.chip:hover{border-color:var(--red);color:var(--text);}.chip.active{background:var(--red);border-color:var(--red);color:#fff;}
+.main{padding:16px;max-width:1400px;margin:0 auto;}
+.page{display:none;}.page.active{display:block;}
+.category-section{margin-bottom:36px;}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--border);}
+.cat-icon{font-size:20px;}.cat-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;}
+.cat-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:var(--card);padding:2px 7px;border-radius:10px;margin-left:auto;}
+.cat-actions{display:flex;gap:6px;}
+.cat-action-btn{padding:3px 9px;border-radius:6px;border:1px solid var(--border);background:transparent;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;}
+.cat-action-btn.mark-all{color:var(--green);border-color:var(--green);}.cat-action-btn.mark-all:hover{background:rgba(92,184,92,0.2);}
+.cat-action-btn.clear-sec{color:var(--red);border-color:var(--red);}.cat-action-btn.clear-sec:hover{background:rgba(204,0,0,0.2);}
+.word-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.word-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 15px;transition:all 0.2s;position:relative;overflow:hidden;}
+.word-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
+.word-card:hover{border-color:#444;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.4);}
+.word-card.learned{opacity:0.45;}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;}
+.english{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;font-weight:600;}
+.russian{font-size:19px;font-weight:700;color:var(--text);line-height:1.2;margin:2px 0;}
+.pronunciation{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue);margin-bottom:8px;}
+.example{background:rgba(255,255,255,0.04);border-radius:6px;padding:7px 9px;margin-top:5px;}
+.example .ru-sentence{font-size:12px;color:var(--accent);margin-bottom:2px;font-weight:600;}
+.example .en-sentence{font-size:11px;color:var(--muted);font-style:italic;}
+.learn-btn{width:25px;height:25px;border-radius:50%;background:var(--border);border:none;color:var(--muted);font-size:13px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.learn-btn:hover{background:var(--green);color:#fff;}
+.level-badge{font-size:9px;padding:2px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-weight:600;}
+.level-0{background:rgba(204,0,0,0.2);color:var(--red);}.level-1{background:rgba(74,144,217,0.2);color:var(--blue);}.level-2{background:rgba(232,197,71,0.2);color:var(--accent);}
+.no-results{text-align:center;padding:50px 20px;color:var(--muted);}
+.cat-basics .word-card::before{background:#CC0000}.cat-pronouns .word-card::before{background:#9B59B6}
+.cat-verbs .word-card::before{background:#3498DB}.cat-family .word-card::before{background:#E74C3C}
+.cat-numbers .word-card::before{background:#F39C12}.cat-time .word-card::before{background:#1ABC9C}
+.cat-food .word-card::before{background:#E67E22}.cat-drinks .word-card::before{background:#2ECC71}
+.cat-transport .word-card::before{background:#3498DB}.cat-weather .word-card::before{background:#95A5A6}
+.cat-house .word-card::before{background:#795548}.cat-clothes .word-card::before{background:#9C27B0}
+.cat-colors .word-card::before{background:#FF5722}.cat-adjectives .word-card::before{background:#607D8B}
+.cat-places .word-card::before{background:#4CAF50}.cat-school .word-card::before{background:#FF9800}
+.cat-body .word-card::before{background:#E91E63}.cat-nature .word-card::before{background:#8BC34A}
+.cat-sports .word-card::before{background:#FF5722}.cat-shopping .word-card::before{background:#9C27B0}
+.cat-office .word-card::before{background:#37474F}.cat-tech .word-card::before{background:#00BCD4}
+.cat-emotions .word-card::before{background:#F44336}.cat-grammar .word-card::before{background:#5D4037}
+.cat-phrases .word-card::before{background:#1565C0}.cat-professions .word-card::before{background:#2E7D32}
+.cat-travel .word-card::before{background:#0097A7}.cat-health2 .word-card::before{background:#AD1457}
+/* PRACTICE */
+.practice-header{text-align:center;padding:28px 20px 16px;}
+.practice-header h2{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,34px);font-weight:900;}
+.practice-header h2 span{color:var(--gold);}
+.practice-header p{color:var(--muted);margin-top:6px;font-size:12px;}
+.practice-stats-row{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;padding:10px 16px 14px;border-bottom:1px solid var(--border);}
+.p-stat{text-align:center;}.p-stat .n{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--gold);font-weight:700;}
+.p-stat .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.p-progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:4px 0 0;}
+.p-progress-fill{height:100%;background:linear-gradient(90deg,#138808,#FFD700);border-radius:3px;transition:width 0.4s;}
+.practice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;padding:16px;max-width:1400px;margin:0 auto;}
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color 0.2s;}
+.q-card.correct-card{border-color:var(--green);box-shadow:0 0 14px rgba(92,184,92,0.2);}
+.q-card.wrong-card{border-color:#e74c3c;box-shadow:0 0 14px rgba(231,76,60,0.2);}
+.q-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px;}
+.q-sentence{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.5;}
+.q-sentence .blank{color:var(--gold);border-bottom:2px solid var(--gold);padding:0 5px;font-style:italic;display:inline-block;min-width:55px;text-align:center;}
+.options{display:flex;flex-direction:column;gap:7px;}
+.opt-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:left;transition:all 0.18s;display:flex;align-items:center;gap:7px;}
+.opt-btn:hover:not(:disabled){border-color:var(--blue);background:rgba(74,144,217,0.1);}
+.opt-btn.correct{background:rgba(92,184,92,0.2);border-color:var(--green);color:var(--green);}
+.opt-btn.wrong{background:rgba(231,76,60,0.18);border-color:#e74c3c;color:#e74c3c;}
+.opt-btn:disabled{cursor:default;}
+.opt-letter{width:20px;height:20px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.opt-btn.correct .opt-letter{background:var(--green);color:#fff;}.opt-btn.wrong .opt-letter{background:#e74c3c;color:#fff;}
+.q-feedback{margin-top:8px;font-size:11px;color:var(--muted);font-style:italic;min-height:15px;}
+.q-feedback.ok{color:var(--green);}.q-feedback.fail{color:#e74c3c;}
+/* GRAMMAR */
+.grammar-page{padding:16px;max-width:1100px;margin:0 auto;}
+.grammar-header-section{text-align:center;padding:28px 20px 20px;}
+.grammar-header-section h2{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,36px);font-weight:900;}
+.grammar-header-section h2 span{color:var(--gold);}
+.grammar-header-section p{color:var(--muted);margin-top:6px;font-size:12px;}
+.grammar-nav{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 20px;justify-content:center;}
+.grammar-nav-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.grammar-nav-btn:hover{border-color:var(--purple);color:var(--text);}
+.grammar-nav-btn.active{background:var(--purple);border-color:var(--purple);color:#fff;}
+.grammar-section{margin-bottom:40px;display:none;}
+.grammar-section.active{display:block;}
+.grammar-section-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--gold);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.grammar-section-subtitle{color:var(--muted);font-size:13px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.grammar-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:16px;border-left:4px solid var(--purple);}
+.grammar-card h3{font-size:15px;font-weight:800;color:var(--text);margin-bottom:8px;}
+.grammar-card .rule{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6;}
+.grammar-card .rule b{color:var(--accent);}
+.grammar-table{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:13px;}
+.grammar-table th{background:rgba(155,89,182,0.2);color:var(--purple);padding:8px 12px;text-align:left;font-weight:700;border:1px solid var(--border);}
+.grammar-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text);}
+.grammar-table tr:hover td{background:rgba(255,255,255,0.03);}
+.grammar-table .ru{color:var(--accent);font-weight:700;font-size:14px;}
+.grammar-table .trans{color:var(--muted);font-style:italic;font-size:12px;}
+.ex-block{background:rgba(255,255,255,0.04);border-radius:8px;padding:12px 14px;margin-top:10px;}
+.ex-block .ex-label{font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px;}
+.ex-item{margin-bottom:6px;}
+.ex-item .ru-ex{font-size:14px;color:var(--accent);font-weight:700;}
+.ex-item .en-ex{font-size:12px;color:var(--muted);font-style:italic;}
+.tip-box{background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.3);border-radius:8px;padding:12px 14px;margin-top:12px;}
+.tip-box .tip-label{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px;}
+.tip-box p{font-size:12px;color:var(--text);line-height:1.6;}
+.emoji-burst{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:clamp(70px,14vw,130px);z-index:9999;pointer-events:none;transition:transform 0.15s cubic-bezier(.34,1.56,.64,1),opacity 0.4s ease;opacity:0;user-select:none;}
+.emoji-burst.show{transform:translate(-50%,-50%) scale(1);opacity:1;}.emoji-burst.hide{transform:translate(-50%,-50%) scale(0.5);opacity:0;}
+footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:20px;}
+@media(max-width:600px){.word-grid,.practice-grid{grid-template-columns:1fr;}.stats-bar{gap:12px;}.controls{flex-direction:column;}.dev-tag{top:7px;right:7px;padding:4px 9px 4px 7px;}.grammar-table{font-size:11px;}}
+</style>
+</head>
+<body>
+<div class="dev-tag">
+  <div class="dev-flag"><span class="f1"></span><span class="f2"></span><span class="f3"></span></div>
+  <span class="dev-name"><span class="n1">Harshal</span><span class="n2"> · </span><span class="n3">Chavan</span></span>
+</div>
+<div class="emoji-burst" id="emoji-burst">😊</div>
+<div class="sm-panel" id="sm-panel">
+  <div class="sm-overlay" onclick="closeSM()"></div>
+  <div class="sm-drawer">
+    <div class="sm-header"><span class="sm-title">📋 Section Manager</span><button class="sm-close" onclick="closeSM()">✕</button></div>
+    <div class="sm-global-btns">
+      <button class="sm-gbtn select-all" onclick="markAllGlobal()">✅ Mark All</button>
+      <button class="sm-gbtn clear-all" onclick="clearAllGlobal()">🗑️ Clear All</button>
+    </div>
+    <div class="sm-section-list" id="sm-section-list"></div>
+  </div>
+</div>
+<header>
+  <h1>Learn <span>Russian</span> – Master Course</h1>
+  <p>1200+ Words · Practice · Full Grammar · By Harshal Chavan</p>
+  <div class="flag-stripe"><div class="w"></div><div class="b"></div><div class="r"></div></div>
+</header>
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="switchTab('vocab',this)">📖 Vocabulary</div>
+  <div class="nav-tab" onclick="switchTab('practice',this)">✏️ Practice</div>
+  <div class="nav-tab" onclick="switchTab('grammar',this)">📐 Grammar</div>
+</div>
+<div class="stats-bar">
+  <div class="stat"><div class="num" id="total-count">0</div><div class="label">Total Words</div></div>
+  <div class="stat"><div class="num" id="learned-count">0</div><div class="label">Learned ✓</div></div>
+  <div class="stat"><div class="num" id="showing-count">0</div><div class="label">Showing</div></div>
+  <div class="stat progress-wrap">
+    <div class="label" style="margin-bottom:2px">Vocab Progress</div>
+    <div class="progress-pct" id="progress-pct">0%</div>
+    <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
+  </div>
+</div>
+<div id="vocab-controls">
+  <div class="controls">
+    <button class="section-manager-btn" onclick="openSM()">☰ Section Manager</button>
+    <input class="search-box" type="text" id="search" placeholder="🔍  Search English or Russian..." oninput="filterWords()">
+  </div>
+  <div class="filter-row" id="filter-row"></div>
+</div>
+<div id="page-vocab" class="page active"><div class="main" id="main-content"></div></div>
+<div id="page-practice" class="page">
+  <div class="practice-header"><h2>✏️ Practice <span>Section</span></h2><p>100 Fill-in-the-Blank Sentences · Beginner to Intermediate</p></div>
+  <div class="practice-stats-row">
+    <div class="p-stat"><div class="n" id="p-correct">0</div><div class="l">Correct ✅</div></div>
+    <div class="p-stat"><div class="n" id="p-wrong">0</div><div class="l">Wrong ❌</div></div>
+    <div class="p-stat"><div class="n" id="p-total">0</div><div class="l">Answered</div></div>
+    <div class="p-stat" style="min-width:130px">
+      <div class="l" style="margin-bottom:2px">Score</div>
+      <div class="n" id="p-pct">0%</div>
+      <div class="p-progress-bar"><div class="p-progress-fill" id="p-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="practice-grid" id="practice-grid"></div>
+</div>
+<div id="page-grammar" class="page">
+  <div class="grammar-page">
+    <div class="grammar-header-section">
+      <h2>📐 Russian <span>Grammar</span></h2>
+      <p>Complete guide from basics to intermediate · With examples for every rule</p>
+    </div>
+    <div class="grammar-nav" id="grammar-nav"></div>
+    <div id="grammar-sections"></div>
+  </div>
+</div>
+<footer>🇷🇺 1200+ Words · 28 Categories · 100 Practice Questions · Full Grammar Guide · Built by <strong style="color:var(--ind-orange)">Harshal</strong> <strong style="color:#fff">·</strong> <strong style="color:var(--ind-green)">Chavan</strong></footer>
+<script>
+// ══════════════════════════════════════════════════
+//  VOCABULARY DATA  (28 categories)
+// ══════════════════════════════════════════════════
+const CATEGORIES=[
+{id:'basics',name:'Greetings & Basics',icon:'👋',words:[
+{en:'Hello',ru:'Привет',pr:'Privet',ex_ru:'Привет! Как дела?',ex_en:'Hello! How are you?',lv:0},
+{en:'Good morning',ru:'Доброе утро',pr:'Dobroye utro',ex_ru:'Доброе утро, мама!',ex_en:'Good morning, Mom!',lv:0},
+{en:'Good afternoon',ru:'Добрый день',pr:'Dobryy den',ex_ru:'Добрый день, друзья!',ex_en:'Good afternoon, friends!',lv:0},
+{en:'Good evening',ru:'Добрый вечер',pr:'Dobryy vecher',ex_ru:'Добрый вечер, все!',ex_en:'Good evening, everyone!',lv:0},
+{en:'Goodbye',ru:'До свидания',pr:'Do svidaniya',ex_ru:'До свидания! Увидимся завтра.',ex_en:'Goodbye! See you tomorrow.',lv:0},
+{en:'Bye (informal)',ru:'Пока',pr:'Poka',ex_ru:'Пока, увидимся!',ex_en:'Bye, see you!',lv:0},
+{en:'Thank you',ru:'Спасибо',pr:'Spasibo',ex_ru:'Спасибо за помощь.',ex_en:'Thank you for the help.',lv:0},
+{en:'Please',ru:'Пожалуйста',pr:'Pozhaluysta',ex_ru:'Пожалуйста, помоги мне.',ex_en:'Please, help me.',lv:0},
+{en:"You're welcome",ru:'Пожалуйста',pr:'Pozhaluysta',ex_ru:'– Спасибо! – Пожалуйста!',ex_en:"– Thank you! – You're welcome!",lv:0},
+{en:'Sorry',ru:'Извини',pr:'Izvini',ex_ru:'Извини за опоздание.',ex_en:'Sorry for being late.',lv:0},
+{en:'Yes',ru:'Да',pr:'Da',ex_ru:'Да, я понимаю.',ex_en:'Yes, I understand.',lv:0},
+{en:'No',ru:'Нет',pr:'Nyet',ex_ru:'Нет, я не знаю.',ex_en:"No, I don't know.",lv:0},
+{en:'Maybe',ru:'Может быть',pr:'Mozhet byt',ex_ru:'Может быть, я приду.',ex_en:'Maybe I will come.',lv:0},
+{en:'Of course',ru:'Конечно',pr:'Konechno',ex_ru:'Конечно, я помогу!',ex_en:'Of course, I will help!',lv:0},
+{en:'How are you?',ru:'Как дела?',pr:'Kak dela?',ex_ru:'Привет! Как дела?',ex_en:'Hi! How are you?',lv:0},
+{en:"I'm fine",ru:'Всё хорошо',pr:'Vsyo khorosho',ex_ru:'Спасибо, всё хорошо!',ex_en:'Thanks, everything is fine!',lv:0},
+{en:'My name is...',ru:'Меня зовут...',pr:'Menya zovut...',ex_ru:'Меня зовут Иван.',ex_en:'My name is Ivan.',lv:0},
+{en:"I don't understand",ru:'Я не понимаю',pr:'Ya ne ponimayu',ex_ru:'Я не понимаю. Повтори.',ex_en:"I don't understand. Please repeat.",lv:0},
+{en:'I understand',ru:'Я понимаю',pr:'Ya ponimayu',ex_ru:'Да, я понимаю тебя.',ex_en:'Yes, I understand you.',lv:0},
+{en:'Good night',ru:'Спокойной ночи',pr:'Spokoinoi nochi',ex_ru:'Спокойной ночи, мама!',ex_en:'Good night, Mom!',lv:0},
+{en:'Good luck!',ru:'Удачи!',pr:'Udachi',ex_ru:'Удачи на экзамене!',ex_en:'Good luck on the exam!',lv:0},
+{en:'Happy birthday!',ru:'С днём рождения!',pr:'S dnyom rozhdeniya',ex_ru:'С днём рождения, Иван!',ex_en:'Happy birthday, Ivan!',lv:0},
+{en:'Happy New Year!',ru:'С Новым годом!',pr:'S Novym godom',ex_ru:'С Новым годом!',ex_en:'Happy New Year!',lv:0},
+{en:'No problem',ru:'Не проблема',pr:'Ne problema',ex_ru:'Не проблема!',ex_en:'No problem!',lv:0},
+{en:'See you soon',ru:'До скорого',pr:'Do skorogo',ex_ru:'До скорого!',ex_en:'See you soon!',lv:0},
+{en:'Take care',ru:'Береги себя',pr:'Beregi sebya',ex_ru:'Береги себя!',ex_en:'Take care!',lv:1},
+{en:'Congratulations!',ru:'Поздравляю!',pr:'Pozdravlyayu',ex_ru:'Поздравляю с победой!',ex_en:'Congratulations on your win!',lv:1},
+{en:'Welcome!',ru:'Добро пожаловать!',pr:'Dobro pozhalovat',ex_ru:'Добро пожаловать в Россию!',ex_en:'Welcome to Russia!',lv:1},
+{en:'Cheers!',ru:'За здоровье!',pr:'Za zdorovye',ex_ru:'За здоровье!',ex_en:'Cheers!',lv:1},
+{en:'Nice to meet you',ru:'Приятно познакомиться',pr:'Priyatno poznakomitsya',ex_ru:'Приятно познакомиться!',ex_en:'Nice to meet you!',lv:0},
+{en:'Where are you from?',ru:'Откуда вы?',pr:'Otkuda vy?',ex_ru:'Откуда вы? Я из Индии.',ex_en:"Where are you from?",lv:0},
+{en:'I am from India',ru:'Я из Индии',pr:'Ya iz Indii',ex_ru:'Я из Индии, а ты?',ex_en:'I am from India, and you?',lv:0},
+{en:'Repeat please',ru:'Повтори, пожалуйста',pr:'Povtori pozhaluysta',ex_ru:'Повтори, пожалуйста, медленно.',ex_en:'Please repeat slowly.',lv:0},
+{en:'I agree',ru:'Я согласен',pr:'Ya soglasen',ex_ru:'Я полностью согласен.',ex_en:'I completely agree.',lv:1},
+{en:'I disagree',ru:'Я не согласен',pr:'Ya ne soglasen',ex_ru:'Я не согласен с тобой.',ex_en:'I disagree with you.',lv:1},
+]},
+{id:'pronouns',name:'Pronouns & Questions',icon:'👤',words:[
+{en:'I',ru:'Я',pr:'Ya',ex_ru:'Я студент.',ex_en:'I am a student.',lv:0},
+{en:'You (informal)',ru:'Ты',pr:'Ty',ex_ru:'Ты мой друг.',ex_en:'You are my friend.',lv:0},
+{en:'You (formal)',ru:'Вы',pr:'Vy',ex_ru:'Вы говорите по-русски?',ex_en:'Do you speak Russian?',lv:0},
+{en:'He',ru:'Он',pr:'On',ex_ru:'Он врач.',ex_en:'He is a doctor.',lv:0},
+{en:'She',ru:'Она',pr:'Ona',ex_ru:'Она учительница.',ex_en:'She is a teacher.',lv:0},
+{en:'We',ru:'Мы',pr:'My',ex_ru:'Мы друзья.',ex_en:'We are friends.',lv:0},
+{en:'They',ru:'Они',pr:'Oni',ex_ru:'Они студенты.',ex_en:'They are students.',lv:0},
+{en:'My',ru:'Мой / Моя',pr:'Moy / Moya',ex_ru:'Это мой дом.',ex_en:'This is my house.',lv:0},
+{en:'Your (informal)',ru:'Твой',pr:'Tvoy',ex_ru:'Это твой телефон.',ex_en:'This is your phone.',lv:0},
+{en:'His',ru:'Его',pr:'Yevo',ex_ru:'Это его машина.',ex_en:'This is his car.',lv:0},
+{en:'Her',ru:'Её',pr:'Yeyo',ex_ru:'Это её сумка.',ex_en:'This is her bag.',lv:0},
+{en:'Our',ru:'Наш',pr:'Nash',ex_ru:'Это наш дом.',ex_en:'This is our house.',lv:0},
+{en:'Their',ru:'Их',pr:'Ikh',ex_ru:'Это их школа.',ex_en:'This is their school.',lv:0},
+{en:'This',ru:'Это',pr:'Eto',ex_ru:'Это яблоко.',ex_en:'This is an apple.',lv:0},
+{en:'Who',ru:'Кто',pr:'Kto',ex_ru:'Кто это?',ex_en:'Who is this?',lv:0},
+{en:'What',ru:'Что',pr:'Shto',ex_ru:'Что это?',ex_en:'What is this?',lv:0},
+{en:'Where',ru:'Где',pr:'Gde',ex_ru:'Где ты живёшь?',ex_en:'Where do you live?',lv:0},
+{en:'When',ru:'Когда',pr:'Kogda',ex_ru:'Когда ты придёшь?',ex_en:'When will you come?',lv:0},
+{en:'Why',ru:'Почему',pr:'Pochemu',ex_ru:'Почему ты грустный?',ex_en:'Why are you sad?',lv:0},
+{en:'How',ru:'Как',pr:'Kak',ex_ru:'Как ты это сделал?',ex_en:'How did you do this?',lv:0},
+{en:'How much',ru:'Сколько',pr:'Skolko',ex_ru:'Сколько это стоит?',ex_en:'How much does this cost?',lv:1},
+{en:'Which',ru:'Какой',pr:'Kakoy',ex_ru:'Какой твой любимый цвет?',ex_en:'Which is your favourite colour?',lv:1},
+{en:'Everything',ru:'Всё',pr:'Vsyo',ex_ru:'Всё хорошо.',ex_en:'Everything is fine.',lv:0},
+{en:'Everyone',ru:'Все',pr:'Vse',ex_ru:'Все пришли.',ex_en:'Everyone came.',lv:0},
+{en:'Nobody',ru:'Никто',pr:'Nikto',ex_ru:'Никто не знает.',ex_en:'Nobody knows.',lv:1},
+{en:'Nothing',ru:'Ничего',pr:'Nichego',ex_ru:'Ничего не знаю.',ex_en:"I don't know anything.",lv:1},
+{en:'Someone',ru:'Кто-то',pr:'Kto-to',ex_ru:'Кто-то звонил.',ex_en:'Someone called.',lv:1},
+{en:'Together',ru:'Вместе',pr:'Vmeste',ex_ru:'Мы вместе.',ex_en:'We are together.',lv:0},
+{en:'Myself',ru:'Себя',pr:'Sebya',ex_ru:'Береги себя.',ex_en:'Take care of yourself.',lv:2},
+{en:'Everywhere',ru:'Везде',pr:'Vezde',ex_ru:'Везде снег.',ex_en:'Snow everywhere.',lv:1},
+]},
+{id:'verbs',name:'Essential Verbs',icon:'⚡',words:[
+{en:'To be',ru:'Быть',pr:'Byt',ex_ru:'Я хочу быть врачом.',ex_en:'I want to be a doctor.',lv:0},
+{en:'To have',ru:'У меня есть',pr:'U menya yest',ex_ru:'У меня есть кошка.',ex_en:'I have a cat.',lv:0},
+{en:'To want',ru:'Хотеть',pr:'Khotet',ex_ru:'Я хочу есть.',ex_en:'I want to eat.',lv:0},
+{en:'To go (foot)',ru:'Идти',pr:'Idti',ex_ru:'Я иду в магазин.',ex_en:'I am going to the shop.',lv:0},
+{en:'To go (vehicle)',ru:'Ехать',pr:'Yekhat',ex_ru:'Мы едем в Москву.',ex_en:'We are going to Moscow.',lv:1},
+{en:'To come',ru:'Приходить',pr:'Prikhodit',ex_ru:'Он приходит вечером.',ex_en:'He comes in the evening.',lv:0},
+{en:'To eat',ru:'Есть',pr:'Yest',ex_ru:'Я ем хлеб.',ex_en:'I am eating bread.',lv:0},
+{en:'To drink',ru:'Пить',pr:'Pit',ex_ru:'Она пьёт воду.',ex_en:'She is drinking water.',lv:0},
+{en:'To sleep',ru:'Спать',pr:'Spat',ex_ru:'Я хочу спать.',ex_en:'I want to sleep.',lv:0},
+{en:'To work',ru:'Работать',pr:'Rabotat',ex_ru:'Папа работает в офисе.',ex_en:'Dad works in the office.',lv:0},
+{en:'To study',ru:'Учиться',pr:'Uchitsya',ex_ru:'Я учусь в университете.',ex_en:'I study at university.',lv:0},
+{en:'To read',ru:'Читать',pr:'Chitat',ex_ru:'Я читаю книгу.',ex_en:'I am reading a book.',lv:0},
+{en:'To write',ru:'Писать',pr:'Pisat',ex_ru:'Она пишет письмо.',ex_en:'She is writing a letter.',lv:0},
+{en:'To speak',ru:'Говорить',pr:'Govorit',ex_ru:'Я говорю по-русски.',ex_en:'I speak Russian.',lv:0},
+{en:'To listen',ru:'Слушать',pr:'Slushat',ex_ru:'Он слушает музыку.',ex_en:'He is listening to music.',lv:0},
+{en:'To know',ru:'Знать',pr:'Znat',ex_ru:'Я знаю ответ.',ex_en:'I know the answer.',lv:0},
+{en:'To think',ru:'Думать',pr:'Dumat',ex_ru:'Я думаю о тебе.',ex_en:'I am thinking about you.',lv:0},
+{en:'To love',ru:'Любить',pr:'Lyubit',ex_ru:'Я люблю русский язык.',ex_en:'I love Russian.',lv:0},
+{en:'To live',ru:'Жить',pr:'Zhit',ex_ru:'Я живу в Москве.',ex_en:'I live in Moscow.',lv:0},
+{en:'To buy',ru:'Покупать',pr:'Pokupat',ex_ru:'Я покупаю хлеб.',ex_en:'I am buying bread.',lv:0},
+{en:'To give',ru:'Давать',pr:'Davat',ex_ru:'Дай мне книгу.',ex_en:'Give me the book.',lv:0},
+{en:'To help',ru:'Помогать',pr:'Pomogat',ex_ru:'Помоги мне.',ex_en:'Help me.',lv:0},
+{en:'To open',ru:'Открывать',pr:'Otkryvat',ex_ru:'Открой окно.',ex_en:'Open the window.',lv:0},
+{en:'To close',ru:'Закрывать',pr:'Zakryvat',ex_ru:'Закрой дверь.',ex_en:'Close the door.',lv:0},
+{en:'To call',ru:'Звонить',pr:'Zvonit',ex_ru:'Позвони мне вечером.',ex_en:'Call me in the evening.',lv:1},
+{en:'To wait',ru:'Ждать',pr:'Zhdat',ex_ru:'Подожди меня здесь.',ex_en:'Wait for me here.',lv:1},
+{en:'To sit',ru:'Сидеть',pr:'Sidet',ex_ru:'Она сидит на стуле.',ex_en:'She is sitting on the chair.',lv:0},
+{en:'To run',ru:'Бежать',pr:'Bezhat',ex_ru:'Дети бегут в парке.',ex_en:'The children are running.',lv:1},
+{en:'To play',ru:'Играть',pr:'Igrat',ex_ru:'Дети играют во дворе.',ex_en:'The children are playing.',lv:0},
+{en:'To cook',ru:'Готовить',pr:'Gotovit',ex_ru:'Мама готовит суп.',ex_en:'Mum is cooking soup.',lv:0},
+{en:'To see',ru:'Видеть',pr:'Videt',ex_ru:'Я вижу машину.',ex_en:'I see a car.',lv:0},
+{en:'To take',ru:'Брать',pr:'Brat',ex_ru:'Возьми зонт!',ex_en:'Take an umbrella!',lv:1},
+{en:'To ask',ru:'Спрашивать',pr:'Sprashivat',ex_ru:'Я хочу спросить.',ex_en:'I want to ask.',lv:1},
+{en:'To answer',ru:'Отвечать',pr:'Otvechat',ex_ru:'Он не отвечает.',ex_en:'He is not answering.',lv:1},
+{en:'To stand',ru:'Стоять',pr:'Stoyat',ex_ru:'Он стоит у окна.',ex_en:'He is standing by the window.',lv:1},
+{en:'To like',ru:'Нравиться',pr:'Nravitsya',ex_ru:'Мне нравится эта песня.',ex_en:'I like this song.',lv:1},
+{en:'To understand',ru:'Понимать',pr:'Ponimat',ex_ru:'Я понимаю.',ex_en:'I understand.',lv:0},
+{en:'To forget',ru:'Забывать',pr:'Zabyvat',ex_ru:'Я забыл ключ.',ex_en:'I forgot the key.',lv:1},
+{en:'To remember',ru:'Помнить',pr:'Pomnit',ex_ru:'Я помню тебя.',ex_en:'I remember you.',lv:1},
+{en:'To find',ru:'Находить',pr:'Nakhodit',ex_ru:'Я нашёл ключ.',ex_en:'I found the key.',lv:1},
+{en:'To lose',ru:'Терять',pr:'Teryat',ex_ru:'Я потерял телефон.',ex_en:'I lost my phone.',lv:1},
+{en:'To start',ru:'Начинать',pr:'Nachinat',ex_ru:'Начни урок.',ex_en:'Start the lesson.',lv:1},
+{en:'To finish',ru:'Заканчивать',pr:'Zakanchivat',ex_ru:'Я закончил работу.',ex_en:'I finished the work.',lv:1},
+{en:'To return',ru:'Возвращаться',pr:'Vozvrashchatsya',ex_ru:'Я вернусь завтра.',ex_en:'I will return tomorrow.',lv:2},
+{en:'To explain',ru:'Объяснять',pr:'Ob\'yasnyat',ex_ru:'Объясни мне это.',ex_en:'Explain this to me.',lv:2},
+]},
+{id:'numbers',name:'Numbers & Counting',icon:'🔢',words:[
+{en:'Zero',ru:'Ноль',pr:'Nol',ex_ru:'Температура ноль.',ex_en:'Temperature is zero.',lv:0},
+{en:'One',ru:'Один',pr:'Odin',ex_ru:'Один брат.',ex_en:'One brother.',lv:0},
+{en:'Two',ru:'Два',pr:'Dva',ex_ru:'Два билета.',ex_en:'Two tickets.',lv:0},
+{en:'Three',ru:'Три',pr:'Tri',ex_ru:'Три котёнка.',ex_en:'Three kittens.',lv:0},
+{en:'Four',ru:'Четыре',pr:'Chetyre',ex_ru:'Четыре стула.',ex_en:'Four chairs.',lv:0},
+{en:'Five',ru:'Пять',pr:'Pyat',ex_ru:'Пять минут.',ex_en:'Five minutes.',lv:0},
+{en:'Six',ru:'Шесть',pr:'Shest',ex_ru:'Шесть часов.',ex_en:'Six o\'clock.',lv:0},
+{en:'Seven',ru:'Семь',pr:'Sem',ex_ru:'Семь дней.',ex_en:'Seven days.',lv:0},
+{en:'Eight',ru:'Восемь',pr:'Vosem',ex_ru:'Восемь рублей.',ex_en:'Eight rubles.',lv:0},
+{en:'Nine',ru:'Девять',pr:'Devyat',ex_ru:'Девять книг.',ex_en:'Nine books.',lv:0},
+{en:'Ten',ru:'Десять',pr:'Desyat',ex_ru:'Десять рублей.',ex_en:'Ten rubles.',lv:0},
+{en:'Eleven',ru:'Одиннадцать',pr:'Odinnadtsat',ex_ru:'Одиннадцать часов.',ex_en:'Eleven o\'clock.',lv:0},
+{en:'Twelve',ru:'Двенадцать',pr:'Dvenadtsat',ex_ru:'Двенадцать месяцев.',ex_en:'Twelve months.',lv:0},
+{en:'Twenty',ru:'Двадцать',pr:'Dvadtsat',ex_ru:'Мне двадцать лет.',ex_en:'I am twenty years old.',lv:0},
+{en:'Thirty',ru:'Тридцать',pr:'Tridtsat',ex_ru:'Тридцать минут.',ex_en:'Thirty minutes.',lv:0},
+{en:'Forty',ru:'Сорок',pr:'Sorok',ex_ru:'Сорок рублей.',ex_en:'Forty rubles.',lv:1},
+{en:'Fifty',ru:'Пятьдесят',pr:'Pyatdesyat',ex_ru:'Пятьдесят процентов.',ex_en:'Fifty percent.',lv:1},
+{en:'Hundred',ru:'Сто',pr:'Sto',ex_ru:'Сто рублей.',ex_en:'One hundred rubles.',lv:0},
+{en:'Thousand',ru:'Тысяча',pr:'Tysyacha',ex_ru:'Тысяча слов.',ex_en:'A thousand words.',lv:1},
+{en:'Million',ru:'Миллион',pr:'Million',ex_ru:'Миллион рублей.',ex_en:'A million rubles.',lv:1},
+{en:'First',ru:'Первый',pr:'Pervyy',ex_ru:'Первый день в школе.',ex_en:'The first day at school.',lv:0},
+{en:'Second',ru:'Второй',pr:'Vtoroy',ex_ru:'Второй этаж.',ex_en:'Second floor.',lv:0},
+{en:'Third',ru:'Третий',pr:'Tretiy',ex_ru:'Третий раз.',ex_en:'The third time.',lv:0},
+{en:'Last',ru:'Последний',pr:'Posledniy',ex_ru:'Последний урок.',ex_en:'The last lesson.',lv:1},
+{en:'Half',ru:'Половина',pr:'Polovina',ex_ru:'Половина часа.',ex_en:'Half an hour.',lv:1},
+{en:'More',ru:'Больше',pr:'Bolshe',ex_ru:'Больше воды.',ex_en:'More water.',lv:0},
+{en:'Less',ru:'Меньше',pr:'Menshe',ex_ru:'Меньше сахара.',ex_en:'Less sugar.',lv:0},
+{en:'Many / Much',ru:'Много',pr:'Mnogo',ex_ru:'Много друзей.',ex_en:'Many friends.',lv:0},
+{en:'Few / Little',ru:'Мало',pr:'Malo',ex_ru:'Мало времени.',ex_en:'Little time.',lv:0},
+{en:'Enough',ru:'Достаточно',pr:'Dostatochno',ex_ru:'Этого достаточно.',ex_en:'That is enough.',lv:1},
+]},
+{id:'time',name:'Time & Days',icon:'⏰',words:[
+{en:'Time',ru:'Время',pr:'Vremya',ex_ru:'Сколько времени?',ex_en:'What time is it?',lv:0},
+{en:'Hour',ru:'Час',pr:'Chas',ex_ru:'Один час.',ex_en:'One hour.',lv:0},
+{en:'Minute',ru:'Минута',pr:'Minuta',ex_ru:'Одну минуту.',ex_en:'One minute.',lv:0},
+{en:'Today',ru:'Сегодня',pr:'Segodnya',ex_ru:'Сегодня хорошая погода.',ex_en:'Today the weather is nice.',lv:0},
+{en:'Tomorrow',ru:'Завтра',pr:'Zavtra',ex_ru:'Завтра экзамен.',ex_en:'Exam tomorrow.',lv:0},
+{en:'Yesterday',ru:'Вчера',pr:'Vchera',ex_ru:'Вчера я был в кино.',ex_en:'Yesterday I was at the cinema.',lv:0},
+{en:'Morning',ru:'Утро',pr:'Utro',ex_ru:'Утром я пью кофе.',ex_en:'In the morning I drink coffee.',lv:0},
+{en:'Evening',ru:'Вечер',pr:'Vecher',ex_ru:'Вечером я отдыхаю.',ex_en:'In the evening I relax.',lv:0},
+{en:'Night',ru:'Ночь',pr:'Noch',ex_ru:'Ночью я сплю.',ex_en:'At night I sleep.',lv:0},
+{en:'Week',ru:'Неделя',pr:'Nedelya',ex_ru:'Эта неделя трудная.',ex_en:'This week is hard.',lv:0},
+{en:'Month',ru:'Месяц',pr:'Mesyats',ex_ru:'Следующий месяц — июнь.',ex_en:'Next month is June.',lv:0},
+{en:'Year',ru:'Год',pr:'God',ex_ru:'Новый год!',ex_en:'New Year!',lv:0},
+{en:'Monday',ru:'Понедельник',pr:'Ponedelnik',ex_ru:'В понедельник работа.',ex_en:'On Monday I work.',lv:0},
+{en:'Tuesday',ru:'Вторник',pr:'Vtornik',ex_ru:'Во вторник — gym.',ex_en:'On Tuesday — the gym.',lv:0},
+{en:'Wednesday',ru:'Среда',pr:'Sreda',ex_ru:'В среду собрание.',ex_en:'On Wednesday a meeting.',lv:0},
+{en:'Thursday',ru:'Четверг',pr:'Chetverg',ex_ru:'Четверг — любимый день.',ex_en:'Thursday is my favourite day.',lv:0},
+{en:'Friday',ru:'Пятница',pr:'Pyatnitsa',ex_ru:'В пятницу отдых.',ex_en:'On Friday we relax.',lv:0},
+{en:'Saturday',ru:'Суббота',pr:'Subbota',ex_ru:'В субботу гуляю.',ex_en:'On Saturday I walk.',lv:0},
+{en:'Sunday',ru:'Воскресенье',pr:'Voskresenye',ex_ru:'В воскресенье обед.',ex_en:'On Sunday family dinner.',lv:0},
+{en:'Now',ru:'Сейчас',pr:'Seychas',ex_ru:'Я сейчас занят.',ex_en:'I am busy now.',lv:0},
+{en:'Later',ru:'Позже',pr:'Pozhe',ex_ru:'Позвони позже.',ex_en:'Call later.',lv:0},
+{en:'Always',ru:'Всегда',pr:'Vsegda',ex_ru:'Я всегда помогу.',ex_en:'I will always help.',lv:0},
+{en:'Never',ru:'Никогда',pr:'Nikogda',ex_ru:'Я никогда не лгу.',ex_en:'I never lie.',lv:1},
+{en:'Sometimes',ru:'Иногда',pr:'Inogda',ex_ru:'Иногда я гуляю.',ex_en:'Sometimes I walk.',lv:0},
+{en:'Often',ru:'Часто',pr:'Chasto',ex_ru:'Часто хожу в кино.',ex_en:'I often go to the cinema.',lv:0},
+{en:'Soon',ru:'Скоро',pr:'Skoro',ex_ru:'Скоро вернусь.',ex_en:'I will be back soon.',lv:0},
+{en:'Already',ru:'Уже',pr:'Uzhe',ex_ru:'Я уже дома.',ex_en:'I am already home.',lv:0},
+{en:'Early',ru:'Рано',pr:'Rano',ex_ru:'Я встаю рано.',ex_en:'I wake up early.',lv:0},
+{en:'Late',ru:'Поздно',pr:'Pozdno',ex_ru:'Не приходи поздно.',ex_en:"Don't come late.",lv:0},
+{en:'January',ru:'Январь',pr:'Yanvar',ex_ru:'Январь — холодный месяц.',ex_en:'January is a cold month.',lv:1},
+{en:'February',ru:'Февраль',pr:'Fevral',ex_ru:'Февраль — последний месяц зимы.',ex_en:'February is the last month of winter.',lv:1},
+{en:'March',ru:'Март',pr:'Mart',ex_ru:'В марте начинается весна.',ex_en:'Spring starts in March.',lv:1},
+{en:'June',ru:'Июнь',pr:'Iyun',ex_ru:'Июнь — летний месяц.',ex_en:'June is a summer month.',lv:1},
+{en:'December',ru:'Декабрь',pr:'Dekabr',ex_ru:'В декабре Новый год.',ex_en:'New Year is in December.',lv:1},
+]},
+{id:'family',name:'Family & People',icon:'👨‍👩‍👧',words:[
+{en:'Family',ru:'Семья',pr:'Semya',ex_ru:'У меня большая семья.',ex_en:'I have a large family.',lv:0},
+{en:'Mother',ru:'Мама',pr:'Mama',ex_ru:'Моя мама готовит вкусно.',ex_en:'My mother cooks deliciously.',lv:0},
+{en:'Father',ru:'Папа',pr:'Papa',ex_ru:'Мой папа врач.',ex_en:'My father is a doctor.',lv:0},
+{en:'Brother',ru:'Брат',pr:'Brat',ex_ru:'Мой брат играет в футбол.',ex_en:'My brother plays football.',lv:0},
+{en:'Sister',ru:'Сестра',pr:'Sestra',ex_ru:'Моя сестра красивая.',ex_en:'My sister is beautiful.',lv:0},
+{en:'Grandmother',ru:'Бабушка',pr:'Babushka',ex_ru:'Бабушка делает пироги.',ex_en:'Grandma makes pies.',lv:0},
+{en:'Grandfather',ru:'Дедушка',pr:'Dedushka',ex_ru:'Дедушка любит рыбалку.',ex_en:'Grandpa loves fishing.',lv:0},
+{en:'Son',ru:'Сын',pr:'Syn',ex_ru:'Мой сын учится.',ex_en:'My son studies.',lv:0},
+{en:'Daughter',ru:'Дочь',pr:'Doch',ex_ru:'Дочь читает книгу.',ex_en:'The daughter is reading.',lv:0},
+{en:'Husband',ru:'Муж',pr:'Muzh',ex_ru:'Мой муж инженер.',ex_en:'My husband is an engineer.',lv:0},
+{en:'Wife',ru:'Жена',pr:'Zhena',ex_ru:'Моя жена врач.',ex_en:'My wife is a doctor.',lv:0},
+{en:'Uncle',ru:'Дядя',pr:'Dyadya',ex_ru:'Мой дядя в Москве.',ex_en:'My uncle is in Moscow.',lv:0},
+{en:'Aunt',ru:'Тётя',pr:'Tyotya',ex_ru:'Тётя готовит вкусно.',ex_en:'My aunt cooks deliciously.',lv:0},
+{en:'Friend',ru:'Друг',pr:'Droog',ex_ru:'Мой друг в Москве.',ex_en:'My friend lives in Moscow.',lv:0},
+{en:'Child',ru:'Ребёнок',pr:'Rebyonok',ex_ru:'Ребёнок спит.',ex_en:'The child is sleeping.',lv:0},
+{en:'Parents',ru:'Родители',pr:'Roditeli',ex_ru:'Мои родители дома.',ex_en:'My parents are at home.',lv:0},
+{en:'Children',ru:'Дети',pr:'Deti',ex_ru:'Дети в школе.',ex_en:'The children are at school.',lv:0},
+{en:'Man',ru:'Мужчина',pr:'Muzhchina',ex_ru:'Этот мужчина врач.',ex_en:'This man is a doctor.',lv:0},
+{en:'Woman',ru:'Женщина',pr:'Zhenshchina',ex_ru:'Эта женщина учительница.',ex_en:'This woman is a teacher.',lv:0},
+{en:'Boy',ru:'Мальчик',pr:'Malchik',ex_ru:'Мальчик играет.',ex_en:'The boy is playing.',lv:0},
+{en:'Girl',ru:'Девочка',pr:'Devochka',ex_ru:'Девочка рисует.',ex_en:'The girl is drawing.',lv:0},
+{en:'Baby',ru:'Малыш',pr:'Malysh',ex_ru:'Малыш спит.',ex_en:'The baby is sleeping.',lv:0},
+{en:'Neighbour',ru:'Сосед',pr:'Sosed',ex_ru:'Мой сосед громкий.',ex_en:'My neighbour is loud.',lv:1},
+{en:'Person',ru:'Человек',pr:'Chelovek',ex_ru:'Хороший человек.',ex_en:'A good person.',lv:0},
+{en:'People',ru:'Люди',pr:'Lyudi',ex_ru:'Добрые люди.',ex_en:'Kind people.',lv:0},
+{en:'Student',ru:'Студент',pr:'Student',ex_ru:'Я студент.',ex_en:'I am a student.',lv:0},
+{en:'Teacher',ru:'Учитель',pr:'Uchitel',ex_ru:'Мой учитель добрый.',ex_en:'My teacher is kind.',lv:0},
+{en:'Boyfriend',ru:'Парень',pr:'Paren',ex_ru:'Мой парень красивый.',ex_en:'My boyfriend is handsome.',lv:1},
+{en:'Girlfriend',ru:'Девушка',pr:'Devushka',ex_ru:'Моя девушка умная.',ex_en:'My girlfriend is smart.',lv:1},
+{en:'Guest',ru:'Гость',pr:'Gost',ex_ru:'У нас гость.',ex_en:'We have a guest.',lv:1},
+]},
+{id:'food',name:'Food & Meals',icon:'🍽️',words:[
+{en:'Food',ru:'Еда',pr:'Yeda',ex_ru:'Еда очень вкусная!',ex_en:'The food is very tasty!',lv:0},
+{en:'Breakfast',ru:'Завтрак',pr:'Zavtrak',ex_ru:'Завтрак в 8 утра.',ex_en:'Breakfast at 8 AM.',lv:0},
+{en:'Lunch',ru:'Обед',pr:'Obed',ex_ru:'Обед в час дня.',ex_en:'Lunch at 1 PM.',lv:0},
+{en:'Dinner',ru:'Ужин',pr:'Uzhin',ex_ru:'Ужин в семь.',ex_en:'Dinner at seven.',lv:0},
+{en:'Bread',ru:'Хлеб',pr:'Khleb',ex_ru:'Хлеб с маслом.',ex_en:'Bread with butter.',lv:0},
+{en:'Rice',ru:'Рис',pr:'Ris',ex_ru:'Рис с овощами.',ex_en:'Rice with vegetables.',lv:0},
+{en:'Meat',ru:'Мясо',pr:'Myaso',ex_ru:'Я не ем мясо.',ex_en:"I don't eat meat.",lv:0},
+{en:'Chicken',ru:'Курица',pr:'Kuritsa',ex_ru:'Жареная курица вкусная.',ex_en:'Fried chicken is delicious.',lv:0},
+{en:'Fish',ru:'Рыба',pr:'Ryba',ex_ru:'Я люблю рыбу.',ex_en:'I love fish.',lv:0},
+{en:'Egg',ru:'Яйцо',pr:'Yaytso',ex_ru:'Яйцо на завтрак.',ex_en:'An egg for breakfast.',lv:0},
+{en:'Soup',ru:'Суп',pr:'Sup',ex_ru:'Мама готовит суп.',ex_en:'Mom is making soup.',lv:0},
+{en:'Borsch',ru:'Борщ',pr:'Borshch',ex_ru:'Борщ — русский суп.',ex_en:'Borsch is a Russian soup.',lv:0},
+{en:'Salad',ru:'Салат',pr:'Salat',ex_ru:'Салат из огурцов.',ex_en:'Cucumber salad.',lv:0},
+{en:'Pizza',ru:'Пицца',pr:'Pitstsa',ex_ru:'Пицца горячая.',ex_en:'The pizza is hot.',lv:0},
+{en:'Sandwich',ru:'Бутерброд',pr:'Buterbrod',ex_ru:'Бутерброд с сыром.',ex_en:'Sandwich with cheese.',lv:0},
+{en:'Apple',ru:'Яблоко',pr:'Yabloko',ex_ru:'Яблоко сладкое.',ex_en:'The apple is sweet.',lv:0},
+{en:'Banana',ru:'Банан',pr:'Banan',ex_ru:'Я ем банан.',ex_en:'I am eating a banana.',lv:0},
+{en:'Orange',ru:'Апельсин',pr:'Apelsin',ex_ru:'Апельсин кислый.',ex_en:'The orange is sour.',lv:0},
+{en:'Strawberry',ru:'Клубника',pr:'Klubnika',ex_ru:'Клубника вкусная.',ex_en:'Strawberry is delicious.',lv:0},
+{en:'Watermelon',ru:'Арбуз',pr:'Arbuz',ex_ru:'Летом едим арбуз.',ex_en:'We eat watermelon in summer.',lv:0},
+{en:'Tomato',ru:'Помидор',pr:'Pomidor',ex_ru:'Помидор красный.',ex_en:'The tomato is red.',lv:0},
+{en:'Cucumber',ru:'Огурец',pr:'Ogurets',ex_ru:'Свежий огурец.',ex_en:'Fresh cucumber.',lv:0},
+{en:'Potato',ru:'Картофель',pr:'Kartofel',ex_ru:'Жареный картофель.',ex_en:'Fried potato.',lv:0},
+{en:'Carrot',ru:'Морковь',pr:'Morkov',ex_ru:'Морковь оранжевая.',ex_en:'Carrot is orange.',lv:0},
+{en:'Cheese',ru:'Сыр',pr:'Syr',ex_ru:'Я люблю сыр.',ex_en:'I love cheese.',lv:0},
+{en:'Butter',ru:'Масло',pr:'Maslo',ex_ru:'Хлеб с маслом.',ex_en:'Bread with butter.',lv:0},
+{en:'Sugar',ru:'Сахар',pr:'Sakhar',ex_ru:'Добавь сахар.',ex_en:'Add sugar.',lv:0},
+{en:'Salt',ru:'Соль',pr:'Sol',ex_ru:'Добавь соль.',ex_en:'Add salt.',lv:0},
+{en:'Ice cream',ru:'Мороженое',pr:'Morozhenoye',ex_ru:'Я люблю мороженое.',ex_en:'I love ice cream.',lv:0},
+{en:'Cake',ru:'Торт',pr:'Tort',ex_ru:'На день рождения торт.',ex_en:'Birthday cake.',lv:0},
+{en:'Chocolate',ru:'Шоколад',pr:'Shokolad',ex_ru:'Тёмный шоколад вкусный.',ex_en:'Dark chocolate is delicious.',lv:0},
+{en:'Pasta',ru:'Паста',pr:'Pasta',ex_ru:'Я варю пасту.',ex_en:'I am cooking pasta.',lv:0},
+{en:'Porridge',ru:'Каша',pr:'Kasha',ex_ru:'Утром каша.',ex_en:'Porridge in the morning.',lv:0},
+{en:'Mushroom',ru:'Гриб',pr:'Grib',ex_ru:'Грибной суп.',ex_en:'Mushroom soup.',lv:1},
+{en:'Onion',ru:'Лук',pr:'Luk',ex_ru:'Лук в супе.',ex_en:'Onion in the soup.',lv:1},
+]},
+{id:'drinks',name:'Drinks',icon:'☕',words:[
+{en:'Water',ru:'Вода',pr:'Voda',ex_ru:'Я пью воду каждый день.',ex_en:'I drink water every day.',lv:0},
+{en:'Tea',ru:'Чай',pr:'Chai',ex_ru:'Чашка чая.',ex_en:'A cup of tea.',lv:0},
+{en:'Coffee',ru:'Кофе',pr:'Kofe',ex_ru:'Я пью кофе по утрам.',ex_en:'I drink coffee in the mornings.',lv:0},
+{en:'Juice',ru:'Сок',pr:'Sok',ex_ru:'Апельсиновый сок.',ex_en:'Orange juice.',lv:0},
+{en:'Milk',ru:'Молоко',pr:'Moloko',ex_ru:'Молоко полезное.',ex_en:'Milk is healthy.',lv:0},
+{en:'Beer',ru:'Пиво',pr:'Pivo',ex_ru:'Он пьёт пиво.',ex_en:'He drinks beer.',lv:0},
+{en:'Wine',ru:'Вино',pr:'Vino',ex_ru:'Красное вино вкусное.',ex_en:'Red wine is delicious.',lv:0},
+{en:'Lemonade',ru:'Лимонад',pr:'Limonad',ex_ru:'Дети пьют лимонад.',ex_en:'The children drink lemonade.',lv:0},
+{en:'Mineral water',ru:'Минеральная вода',pr:'Mineralnaya voda',ex_ru:'Дайте минеральную воду.',ex_en:'Give me mineral water.',lv:0},
+{en:'Smoothie',ru:'Смузи',pr:'Smuzi',ex_ru:'Смузи с фруктами.',ex_en:'Smoothie with fruit.',lv:1},
+{en:'Vodka',ru:'Водка',pr:'Vodka',ex_ru:'Русская водка.',ex_en:'Russian vodka.',lv:1},
+{en:'Kefir',ru:'Кефир',pr:'Kefir',ex_ru:'Кефир полезен.',ex_en:'Kefir is good for health.',lv:1},
+{en:'Cup',ru:'Чашка',pr:'Chashka',ex_ru:'Чашка кофе.',ex_en:'A cup of coffee.',lv:0},
+{en:'Glass',ru:'Стакан',pr:'Stakan',ex_ru:'Стакан воды.',ex_en:'A glass of water.',lv:0},
+{en:'Bottle',ru:'Бутылка',pr:'Butylka',ex_ru:'Бутылка воды.',ex_en:'A bottle of water.',lv:0},
+{en:'Hot chocolate',ru:'Горячий шоколад',pr:'Goryachiy shokolad',ex_ru:'Горячий шоколад зимой.',ex_en:'Hot chocolate in winter.',lv:1},
+{en:'Cocktail',ru:'Коктейль',pr:'Kokteil',ex_ru:'Фруктовый коктейль.',ex_en:'Fruit cocktail.',lv:1},
+{en:'Kvass',ru:'Квас',pr:'Kvas',ex_ru:'Квас — традиционный напиток.',ex_en:'Kvass is a traditional drink.',lv:2},
+]},
+{id:'transport',name:'Transport',icon:'🚗',words:[
+{en:'Car',ru:'Машина',pr:'Mashina',ex_ru:'Моя машина белая.',ex_en:'My car is white.',lv:0},
+{en:'Bus',ru:'Автобус',pr:'Avtobus',ex_ru:'Автобус едет медленно.',ex_en:'The bus is going slowly.',lv:0},
+{en:'Train',ru:'Поезд',pr:'Poyezd',ex_ru:'Поезд в 10.',ex_en:'The train at 10.',lv:0},
+{en:'Airplane',ru:'Самолёт',pr:'Samolyot',ex_ru:'Самолёт летит в Москву.',ex_en:'The airplane is flying to Moscow.',lv:0},
+{en:'Metro',ru:'Метро',pr:'Metro',ex_ru:'Я езжу на метро.',ex_en:'I ride the metro.',lv:0},
+{en:'Taxi',ru:'Такси',pr:'Taksi',ex_ru:'Вызови такси.',ex_en:'Call a taxi.',lv:0},
+{en:'Bicycle',ru:'Велосипед',pr:'Velosiped',ex_ru:'Еду на велосипеде.',ex_en:'I am cycling.',lv:0},
+{en:'Ship',ru:'Корабль',pr:'Korabl',ex_ru:'Корабль плывёт.',ex_en:'The ship sails.',lv:1},
+{en:'Motorcycle',ru:'Мотоцикл',pr:'Mototsikl',ex_ru:'Мотоцикл быстрый.',ex_en:'The motorcycle is fast.',lv:1},
+{en:'Tram',ru:'Трамвай',pr:'Tramvay',ex_ru:'Трамвай в центре.',ex_en:'The tram in the centre.',lv:1},
+{en:'Ticket',ru:'Билет',pr:'Bilet',ex_ru:'Купи билет.',ex_en:'Buy a ticket.',lv:0},
+{en:'Station',ru:'Станция',pr:'Stantsiya',ex_ru:'Где ближайшая станция?',ex_en:'Where is the nearest station?',lv:0},
+{en:'Airport',ru:'Аэропорт',pr:'Aeroport',ex_ru:'Мы едем в аэропорт.',ex_en:'We are going to the airport.',lv:0},
+{en:'Road',ru:'Дорога',pr:'Doroga',ex_ru:'Длинная дорога.',ex_en:'A long road.',lv:0},
+{en:'Traffic jam',ru:'Пробка',pr:'Probka',ex_ru:'Большая пробка.',ex_en:'A big traffic jam.',lv:1},
+{en:'Stop',ru:'Остановка',pr:'Ostanovka',ex_ru:'Следующая остановка.',ex_en:'Next stop.',lv:0},
+{en:'Driver',ru:'Водитель',pr:'Voditel',ex_ru:'Хороший водитель.',ex_en:'A good driver.',lv:0},
+{en:'Passport',ru:'Паспорт',pr:'Pasport',ex_ru:'Где мой паспорт?',ex_en:'Where is my passport?',lv:0},
+{en:'Flight',ru:'Рейс',pr:'Reys',ex_ru:'Мой рейс в 7.',ex_en:'My flight is at 7.',lv:1},
+{en:'Map',ru:'Карта',pr:'Karta',ex_ru:'Покажи карту.',ex_en:'Show me the map.',lv:0},
+{en:'Petrol',ru:'Бензин',pr:'Benzin',ex_ru:'Нужно купить бензин.',ex_en:'I need to buy petrol.',lv:1},
+{en:'Parking',ru:'Парковка',pr:'Parkovka',ex_ru:'Где парковка?',ex_en:'Where is the parking?',lv:1},
+]},
+{id:'weather',name:'Weather & Seasons',icon:'🌤️',words:[
+{en:'Weather',ru:'Погода',pr:'Pogoda',ex_ru:'Какая сегодня погода?',ex_en:'What is the weather like?',lv:0},
+{en:'Sun',ru:'Солнце',pr:'Solntse',ex_ru:'Ярко светит солнце.',ex_en:'The sun shines brightly.',lv:0},
+{en:'Rain',ru:'Дождь',pr:'Dozhd',ex_ru:'Идёт дождь.',ex_en:"It's raining.",lv:0},
+{en:'Snow',ru:'Снег',pr:'Sneg',ex_ru:'Зимой идёт снег.',ex_en:'It snows in winter.',lv:0},
+{en:'Wind',ru:'Ветер',pr:'Veter',ex_ru:'Сильный ветер.',ex_en:'Strong wind.',lv:0},
+{en:'Cloud',ru:'Облако',pr:'Oblako',ex_ru:'Много облаков.',ex_en:'Many clouds.',lv:0},
+{en:'Storm',ru:'Гроза',pr:'Groza',ex_ru:'Идёт сильная гроза.',ex_en:'There is a strong storm.',lv:1},
+{en:'Ice',ru:'Лёд',pr:'Lyod',ex_ru:'Лёд на дороге.',ex_en:'Ice on the road.',lv:1},
+{en:'Temperature',ru:'Температура',pr:'Temperatura',ex_ru:'Температура плюс двадцать.',ex_en:'Temperature is plus twenty.',lv:0},
+{en:'Hot',ru:'Жарко',pr:'Zharko',ex_ru:'Очень жарко!',ex_en:'It is very hot!',lv:0},
+{en:'Cold',ru:'Холодно',pr:'Kholodno',ex_ru:'Очень холодно.',ex_en:'It is very cold.',lv:0},
+{en:'Warm',ru:'Тепло',pr:'Teplo',ex_ru:'Весной тепло.',ex_en:'It is warm in spring.',lv:0},
+{en:'Spring',ru:'Весна',pr:'Vesna',ex_ru:'Весна красивая.',ex_en:'Spring is beautiful.',lv:0},
+{en:'Summer',ru:'Лето',pr:'Leto',ex_ru:'Летом на море.',ex_en:'To the sea in summer.',lv:0},
+{en:'Autumn',ru:'Осень',pr:'Osen',ex_ru:'Осенью листья жёлтые.',ex_en:'Leaves are yellow in autumn.',lv:0},
+{en:'Winter',ru:'Зима',pr:'Zima',ex_ru:'Зима в России холодная.',ex_en:'Winter in Russia is cold.',lv:0},
+{en:'Umbrella',ru:'Зонт',pr:'Zont',ex_ru:'Возьми зонт!',ex_en:'Take an umbrella!',lv:0},
+{en:'Fog',ru:'Туман',pr:'Tuman',ex_ru:'Утром туман.',ex_en:'Fog in the morning.',lv:1},
+{en:'Sunny',ru:'Солнечно',pr:'Solnechno',ex_ru:'Сегодня солнечно.',ex_en:'It is sunny today.',lv:0},
+{en:'Snowy',ru:'Снежно',pr:'Snezhno',ex_ru:'Снежная зима.',ex_en:'A snowy winter.',lv:1},
+]},
+{id:'house',name:'House & Home',icon:'🏠',words:[
+{en:'House',ru:'Дом',pr:'Dom',ex_ru:'Это мой дом.',ex_en:'This is my house.',lv:0},
+{en:'Apartment',ru:'Квартира',pr:'Kvartira',ex_ru:'Моя квартира маленькая.',ex_en:'My apartment is small.',lv:0},
+{en:'Room',ru:'Комната',pr:'Komnata',ex_ru:'Три комнаты.',ex_en:'Three rooms.',lv:0},
+{en:'Kitchen',ru:'Кухня',pr:'Kukhnya',ex_ru:'Мама на кухне.',ex_en:'Mum is in the kitchen.',lv:0},
+{en:'Bedroom',ru:'Спальня',pr:'Spalnya',ex_ru:'Я сплю в спальне.',ex_en:'I sleep in the bedroom.',lv:0},
+{en:'Bathroom',ru:'Ванная',pr:'Vannaya',ex_ru:'Я в ванной.',ex_en:'I am in the bathroom.',lv:0},
+{en:'Living room',ru:'Гостиная',pr:'Gostinaya',ex_ru:'ТВ в гостиной.',ex_en:'TV in the living room.',lv:0},
+{en:'Door',ru:'Дверь',pr:'Dver',ex_ru:'Закрой дверь.',ex_en:'Close the door.',lv:0},
+{en:'Window',ru:'Окно',pr:'Okno',ex_ru:'Окно открыто.',ex_en:'The window is open.',lv:0},
+{en:'Table',ru:'Стол',pr:'Stol',ex_ru:'Книга на столе.',ex_en:'Book on the table.',lv:0},
+{en:'Chair',ru:'Стул',pr:'Stul',ex_ru:'Сядь на стул.',ex_en:'Sit on the chair.',lv:0},
+{en:'Bed',ru:'Кровать',pr:'Krovat',ex_ru:'Кровать мягкая.',ex_en:'The bed is soft.',lv:0},
+{en:'Sofa',ru:'Диван',pr:'Divan',ex_ru:'Кот на диване.',ex_en:'The cat is on the sofa.',lv:0},
+{en:'Wardrobe',ru:'Шкаф',pr:'Shkaf',ex_ru:'Одежда в шкафу.',ex_en:'Clothes in the wardrobe.',lv:0},
+{en:'Mirror',ru:'Зеркало',pr:'Zerkalo',ex_ru:'Большое зеркало.',ex_en:'A large mirror.',lv:0},
+{en:'Key',ru:'Ключ',pr:'Klyuch',ex_ru:'Где мой ключ?',ex_en:'Where is my key?',lv:0},
+{en:'Lamp',ru:'Лампа',pr:'Lampa',ex_ru:'Включи лампу.',ex_en:'Turn on the lamp.',lv:0},
+{en:'Towel',ru:'Полотенце',pr:'Polotentse',ex_ru:'Дай полотенце.',ex_en:'Give me a towel.',lv:0},
+{en:'Soap',ru:'Мыло',pr:'Mylo',ex_ru:'Мой руки с мылом.',ex_en:'Wash hands with soap.',lv:0},
+{en:'Pillow',ru:'Подушка',pr:'Podushka',ex_ru:'Мягкая подушка.',ex_en:'A soft pillow.',lv:0},
+{en:'Refrigerator',ru:'Холодильник',pr:'Kholodilnik',ex_ru:'Молоко в холодильнике.',ex_en:'Milk in the fridge.',lv:1},
+{en:'Knife',ru:'Нож',pr:'Nozh',ex_ru:'Острый нож.',ex_en:'A sharp knife.',lv:0},
+{en:'Fork',ru:'Вилка',pr:'Vilka',ex_ru:'Дай мне вилку.',ex_en:'Give me a fork.',lv:0},
+{en:'Spoon',ru:'Ложка',pr:'Lozhka',ex_ru:'Чайная ложка.',ex_en:'A teaspoon.',lv:0},
+{en:'Floor',ru:'Пол',pr:'Pol',ex_ru:'Пол чистый.',ex_en:'The floor is clean.',lv:0},
+{en:'Wall',ru:'Стена',pr:'Stena',ex_ru:'На стене картина.',ex_en:'A picture on the wall.',lv:0},
+{en:'Ceiling',ru:'Потолок',pr:'Potolok',ex_ru:'Потолок белый.',ex_en:'The ceiling is white.',lv:1},
+{en:'Lift',ru:'Лифт',pr:'Lift',ex_ru:'Лифт не работает.',ex_en:'The lift is not working.',lv:0},
+{en:'Garden',ru:'Сад',pr:'Sad',ex_ru:'У нас красивый сад.',ex_en:'We have a beautiful garden.',lv:1},
+{en:'Balcony',ru:'Балкон',pr:'Balkon',ex_ru:'Я стою на балконе.',ex_en:'I am standing on the balcony.',lv:1},
+]},
+{id:'clothes',name:'Clothes & Fashion',icon:'👗',words:[
+{en:'Clothes',ru:'Одежда',pr:'Odezhda',ex_ru:'Новая одежда.',ex_en:'New clothes.',lv:0},
+{en:'T-shirt',ru:'Футболка',pr:'Futbolka',ex_ru:'Белая футболка.',ex_en:'A white t-shirt.',lv:0},
+{en:'Jeans',ru:'Джинсы',pr:'Dzhynsy',ex_ru:'Синие джинсы.',ex_en:'Blue jeans.',lv:0},
+{en:'Dress',ru:'Платье',pr:'Platye',ex_ru:'Красивое платье.',ex_en:'A beautiful dress.',lv:0},
+{en:'Shoes',ru:'Туфли',pr:'Tufli',ex_ru:'Новые туфли.',ex_en:'New shoes.',lv:0},
+{en:'Jacket',ru:'Куртка',pr:'Kurtka',ex_ru:'Надень куртку — холодно!',ex_en:"Put on a jacket — it's cold!",lv:0},
+{en:'Hat',ru:'Шапка',pr:'Shapka',ex_ru:'Зимой я ношу шапку.',ex_en:'I wear a hat in winter.',lv:0},
+{en:'Scarf',ru:'Шарф',pr:'Sharf',ex_ru:'Тёплый шарф.',ex_en:'A warm scarf.',lv:0},
+{en:'Coat',ru:'Пальто',pr:'Palto',ex_ru:'Зимнее пальто.',ex_en:'A winter coat.',lv:0},
+{en:'Shirt',ru:'Рубашка',pr:'Rubashka',ex_ru:'Белая рубашка.',ex_en:'A white shirt.',lv:0},
+{en:'Socks',ru:'Носки',pr:'Noski',ex_ru:'Где мои носки?',ex_en:'Where are my socks?',lv:0},
+{en:'Bag',ru:'Сумка',pr:'Sumka',ex_ru:'Тяжёлая сумка.',ex_en:'A heavy bag.',lv:0},
+{en:'Boots',ru:'Сапоги',pr:'Sapogi',ex_ru:'Зимние сапоги.',ex_en:'Winter boots.',lv:1},
+{en:'Sneakers',ru:'Кроссовки',pr:'Krossovki',ex_ru:'Удобные кроссовки.',ex_en:'Comfortable sneakers.',lv:0},
+{en:'Glasses',ru:'Очки',pr:'Ochki',ex_ru:'Он носит очки.',ex_en:'He wears glasses.',lv:0},
+{en:'Ring',ru:'Кольцо',pr:'Koltso',ex_ru:'Золотое кольцо.',ex_en:'A golden ring.',lv:1},
+{en:'Watch',ru:'Часы (наручные)',pr:'Chasy',ex_ru:'Красивые часы.',ex_en:'A beautiful watch.',lv:0},
+{en:'Wallet',ru:'Кошелёк',pr:'Koshelyok',ex_ru:'Где мой кошелёк?',ex_en:'Where is my wallet?',lv:0},
+{en:'Belt',ru:'Ремень',pr:'Remen',ex_ru:'Кожаный ремень.',ex_en:'A leather belt.',lv:1},
+{en:'Gloves',ru:'Перчатки',pr:'Perchatki',ex_ru:'Надень перчатки.',ex_en:'Put on gloves.',lv:1},
+{en:'Skirt',ru:'Юбка',pr:'Yubka',ex_ru:'Красная юбка.',ex_en:'A red skirt.',lv:0},
+{en:'Suit',ru:'Костюм',pr:'Kostyum',ex_ru:'Он в костюме.',ex_en:'He is in a suit.',lv:1},
+{en:'Umbrella',ru:'Зонт',pr:'Zont',ex_ru:'Возьми зонт!',ex_en:'Take an umbrella!',lv:0},
+{en:'Cap / Baseball hat',ru:'Кепка',pr:'Kepka',ex_ru:'Я ношу кепку.',ex_en:'I wear a cap.',lv:1},
+]},
+{id:'colors',name:'Colors',icon:'🎨',words:[
+{en:'Red',ru:'Красный',pr:'Krasnyy',ex_ru:'Машина красная.',ex_en:'The car is red.',lv:0},
+{en:'Blue (dark)',ru:'Синий',pr:'Siniy',ex_ru:'Синее небо.',ex_en:'Blue sky.',lv:0},
+{en:'Blue (light)',ru:'Голубой',pr:'Goluboy',ex_ru:'Голубые глаза.',ex_en:'Blue eyes.',lv:0},
+{en:'Green',ru:'Зелёный',pr:'Zelonyy',ex_ru:'Трава зелёная.',ex_en:'The grass is green.',lv:0},
+{en:'Yellow',ru:'Жёлтый',pr:'Zholtyy',ex_ru:'Солнце жёлтое.',ex_en:'The sun is yellow.',lv:0},
+{en:'White',ru:'Белый',pr:'Belyy',ex_ru:'Снег белый.',ex_en:'Snow is white.',lv:0},
+{en:'Black',ru:'Чёрный',pr:'Chornyy',ex_ru:'Кот чёрный.',ex_en:'The cat is black.',lv:0},
+{en:'Orange',ru:'Оранжевый',pr:'Oranzhevyy',ex_ru:'Апельсин оранжевый.',ex_en:'The orange is orange.',lv:0},
+{en:'Pink',ru:'Розовый',pr:'Rozovyy',ex_ru:'Розовое платье.',ex_en:'A pink dress.',lv:0},
+{en:'Purple',ru:'Фиолетовый',pr:'Fioletovyy',ex_ru:'Фиолетовый цветок.',ex_en:'A purple flower.',lv:0},
+{en:'Brown',ru:'Коричневый',pr:'Korichnevyy',ex_ru:'Шоколад коричневый.',ex_en:'Chocolate is brown.',lv:0},
+{en:'Grey',ru:'Серый',pr:'Seryy',ex_ru:'Серое небо — будет дождь.',ex_en:'Grey sky — it will rain.',lv:0},
+{en:'Gold',ru:'Золотой',pr:'Zolotoy',ex_ru:'Золотое кольцо.',ex_en:'A golden ring.',lv:1},
+{en:'Silver',ru:'Серебряный',pr:'Serebryanyy',ex_ru:'Серебряная цепочка.',ex_en:'A silver chain.',lv:1},
+{en:'Dark',ru:'Тёмный',pr:'Tyomnyy',ex_ru:'Тёмный шоколад.',ex_en:'Dark chocolate.',lv:0},
+{en:'Light',ru:'Светлый',pr:'Svetlyy',ex_ru:'Светлая комната.',ex_en:'A light room.',lv:0},
+{en:'Bright',ru:'Яркий',pr:'Yarkiy',ex_ru:'Яркий цвет.',ex_en:'A bright colour.',lv:1},
+{en:'Colour',ru:'Цвет',pr:'Tsvet',ex_ru:'Какой твой любимый цвет?',ex_en:'What is your favourite colour?',lv:0},
+]},
+{id:'adjectives',name:'Adjectives',icon:'✨',words:[
+{en:'Big',ru:'Большой',pr:'Bolshoy',ex_ru:'Большой город.',ex_en:'A big city.',lv:0},
+{en:'Small',ru:'Маленький',pr:'Malenkiy',ex_ru:'Маленькая комната.',ex_en:'A small room.',lv:0},
+{en:'Good',ru:'Хороший',pr:'Khoroshiy',ex_ru:'Хороший человек.',ex_en:'A good person.',lv:0},
+{en:'Bad',ru:'Плохой',pr:'Plokhoy',ex_ru:'Плохая погода.',ex_en:'Bad weather.',lv:0},
+{en:'New',ru:'Новый',pr:'Novyy',ex_ru:'Новый телефон.',ex_en:'A new phone.',lv:0},
+{en:'Old',ru:'Старый',pr:'Staryy',ex_ru:'Старый компьютер.',ex_en:'An old computer.',lv:0},
+{en:'Fast',ru:'Быстрый',pr:'Bystryy',ex_ru:'Быстрый поезд.',ex_en:'A fast train.',lv:0},
+{en:'Slow',ru:'Медленный',pr:'Medlennyy',ex_ru:'Медленная черепаха.',ex_en:'A slow turtle.',lv:0},
+{en:'Beautiful',ru:'Красивый',pr:'Krasivyy',ex_ru:'Красивый закат.',ex_en:'A beautiful sunset.',lv:0},
+{en:'Smart',ru:'Умный',pr:'Umnyy',ex_ru:'Она умная.',ex_en:'She is smart.',lv:0},
+{en:'Kind',ru:'Добрый',pr:'Dobryy',ex_ru:'Добрый учитель.',ex_en:'A kind teacher.',lv:0},
+{en:'Strong',ru:'Сильный',pr:'Silnyy',ex_ru:'Сильный человек.',ex_en:'A strong person.',lv:0},
+{en:'Heavy',ru:'Тяжёлый',pr:'Tyazholyy',ex_ru:'Тяжёлая сумка.',ex_en:'A heavy bag.',lv:0},
+{en:'Light (weight)',ru:'Лёгкий',pr:'Lyogkiy',ex_ru:'Лёгкий рюкзак.',ex_en:'A light backpack.',lv:0},
+{en:'Long',ru:'Длинный',pr:'Dlinnyy',ex_ru:'Длинная дорога.',ex_en:'A long road.',lv:0},
+{en:'Short',ru:'Короткий',pr:'Korotkiy',ex_ru:'Короткий путь.',ex_en:'A short path.',lv:0},
+{en:'Tall',ru:'Высокий',pr:'Vysokiy',ex_ru:'Он высокий.',ex_en:'He is tall.',lv:0},
+{en:'Important',ru:'Важный',pr:'Vazhnyy',ex_ru:'Важный вопрос.',ex_en:'An important question.',lv:0},
+{en:'Easy',ru:'Лёгкий / Простой',pr:'Prostoy',ex_ru:'Простое задание.',ex_en:'An easy task.',lv:0},
+{en:'Difficult',ru:'Трудный',pr:'Trudnyy',ex_ru:'Трудный язык.',ex_en:'A difficult language.',lv:0},
+{en:'Expensive',ru:'Дорогой',pr:'Dorogoy',ex_ru:'Дорогая машина.',ex_en:'An expensive car.',lv:0},
+{en:'Cheap',ru:'Дешёвый',pr:'Deshovyy',ex_ru:'Дешёвый магазин.',ex_en:'A cheap shop.',lv:0},
+{en:'Clean',ru:'Чистый',pr:'Chistyy',ex_ru:'Чистый дом.',ex_en:'A clean house.',lv:0},
+{en:'Dirty',ru:'Грязный',pr:'Gryaznyy',ex_ru:'Грязная улица.',ex_en:'A dirty street.',lv:0},
+{en:'Interesting',ru:'Интересный',pr:'Interesnyy',ex_ru:'Интересная книга.',ex_en:'An interesting book.',lv:0},
+{en:'Boring',ru:'Скучный',pr:'Skuchnyy',ex_ru:'Скучный фильм.',ex_en:'A boring film.',lv:1},
+{en:'Happy',ru:'Счастливый',pr:'Schastlivyy',ex_ru:'Счастливый день.',ex_en:'A happy day.',lv:0},
+{en:'Sad',ru:'Грустный',pr:'Grustnyy',ex_ru:'Грустная история.',ex_en:'A sad story.',lv:0},
+{en:'Quiet',ru:'Тихий',pr:'Tikhiy',ex_ru:'Тихий район.',ex_en:'A quiet neighbourhood.',lv:1},
+{en:'Loud',ru:'Громкий',pr:'Gromkiy',ex_ru:'Громкая музыка.',ex_en:'Loud music.',lv:1},
+{en:'Free (no cost)',ru:'Бесплатный',pr:'Besplatnyy',ex_ru:'Вход бесплатный.',ex_en:'Entry is free.',lv:1},
+{en:'Tired',ru:'Усталый',pr:'Ustalyy',ex_ru:'Усталый студент.',ex_en:'A tired student.',lv:0},
+{en:'Healthy',ru:'Здоровый',pr:'Zdorovyy',ex_ru:'Я здоровый.',ex_en:'I am healthy.',lv:0},
+{en:'Popular',ru:'Популярный',pr:'Populyarnyy',ex_ru:'Популярная песня.',ex_en:'A popular song.',lv:1},
+{en:'Modern',ru:'Современный',pr:'Sovremennyy',ex_ru:'Современный город.',ex_en:'A modern city.',lv:2},
+]},
+{id:'places',name:'Places & City',icon:'🏙️',words:[
+{en:'City',ru:'Город',pr:'Gorod',ex_ru:'Красивый город.',ex_en:'A beautiful city.',lv:0},
+{en:'Village',ru:'Деревня',pr:'Derevnya',ex_ru:'Летом в деревне.',ex_en:'In the village in summer.',lv:0},
+{en:'Street',ru:'Улица',pr:'Ulitsa',ex_ru:'Я живу на этой улице.',ex_en:'I live on this street.',lv:0},
+{en:'Park',ru:'Парк',pr:'Park',ex_ru:'Гуляем в парке.',ex_en:'We are walking in the park.',lv:0},
+{en:'Shop',ru:'Магазин',pr:'Magazin',ex_ru:'Магазин закрыт.',ex_en:'The shop is closed.',lv:0},
+{en:'Supermarket',ru:'Супермаркет',pr:'Supermarket',ex_ru:'В супермаркете всё есть.',ex_en:'The supermarket has everything.',lv:0},
+{en:'Restaurant',ru:'Ресторан',pr:'Restoran',ex_ru:'Ресторан рядом с парком.',ex_en:'Restaurant near the park.',lv:0},
+{en:'Café',ru:'Кафе',pr:'Kafe',ex_ru:'Встречаемся в кафе.',ex_en:'We meet at the café.',lv:0},
+{en:'Hospital',ru:'Больница',pr:'Bolnitsa',ex_ru:'Больница рядом.',ex_en:'The hospital is nearby.',lv:0},
+{en:'Pharmacy',ru:'Аптека',pr:'Apteka',ex_ru:'Купи лекарство в аптеке.',ex_en:'Buy medicine at the pharmacy.',lv:0},
+{en:'School',ru:'Школа',pr:'Shkola',ex_ru:'Школа рядом с домом.',ex_en:'The school is near home.',lv:0},
+{en:'University',ru:'Университет',pr:'Universitet',ex_ru:'Я учусь в университете.',ex_en:'I study at university.',lv:0},
+{en:'Bank',ru:'Банк',pr:'Bank',ex_ru:'Банк открыт до шести.',ex_en:'The bank is open until six.',lv:0},
+{en:'Hotel',ru:'Гостиница',pr:'Gostintsa',ex_ru:'Мы в гостинице.',ex_en:'We are in the hotel.',lv:0},
+{en:'Museum',ru:'Музей',pr:'Muzey',ex_ru:'Много музеев в Москве.',ex_en:'Many museums in Moscow.',lv:0},
+{en:'Library',ru:'Библиотека',pr:'Biblioteka',ex_ru:'Беру книги в библиотеке.',ex_en:'I borrow books from the library.',lv:0},
+{en:'Cinema',ru:'Кинотеатр',pr:'Kinoteatr',ex_ru:'Идём в кино.',ex_en:'We are going to the cinema.',lv:0},
+{en:'Market',ru:'Рынок',pr:'Rynok',ex_ru:'На рынке свежие фрукты.',ex_en:'Fresh fruits at the market.',lv:0},
+{en:'Theatre',ru:'Театр',pr:'Teatr',ex_ru:'Вечер в театре.',ex_en:'An evening at the theatre.',lv:1},
+{en:'Zoo',ru:'Зоопарк',pr:'Zoopark',ex_ru:'Дети любят зоопарк.',ex_en:'Children love the zoo.',lv:0},
+{en:'Church',ru:'Церковь',pr:'Tserkov',ex_ru:'Старинная церковь.',ex_en:'An ancient church.',lv:1},
+{en:'Square',ru:'Площадь',pr:'Ploshchad',ex_ru:'Красная площадь.',ex_en:'Red Square.',lv:1},
+{en:'Bridge',ru:'Мост',pr:'Most',ex_ru:'Красивый мост.',ex_en:'A beautiful bridge.',lv:1},
+{en:'City centre',ru:'Центр города',pr:'Tsentr goroda',ex_ru:'Мы в центре города.',ex_en:'We are in the city centre.',lv:0},
+{en:'Post office',ru:'Почта',pr:'Pochta',ex_ru:'Отправь письмо на почте.',ex_en:'Send the letter at the post office.',lv:1},
+]},
+{id:'school',name:'School & Study',icon:'📚',words:[
+{en:'Book',ru:'Книга',pr:'Kniga',ex_ru:'Интересная книга.',ex_en:'An interesting book.',lv:0},
+{en:'Notebook',ru:'Тетрадь',pr:'Tetrad',ex_ru:'Пиши в тетради.',ex_en:'Write in the notebook.',lv:0},
+{en:'Pen',ru:'Ручка',pr:'Ruchka',ex_ru:'Дай мне ручку.',ex_en:'Give me a pen.',lv:0},
+{en:'Pencil',ru:'Карандаш',pr:'Karandash',ex_ru:'Рисуй карандашом.',ex_en:'Draw with a pencil.',lv:0},
+{en:'Homework',ru:'Домашнее задание',pr:'Domashneye zadaniye',ex_ru:'Я делаю домашнее задание.',ex_en:'I am doing homework.',lv:0},
+{en:'Exam',ru:'Экзамен',pr:'Ekzamen',ex_ru:'Завтра экзамен.',ex_en:'Exam tomorrow.',lv:0},
+{en:'Lesson',ru:'Урок',pr:'Urok',ex_ru:'Урок в 9.',ex_en:'Lesson at 9.',lv:0},
+{en:'Class',ru:'Класс',pr:'Klass',ex_ru:'Тридцать студентов в классе.',ex_en:'Thirty students in the class.',lv:0},
+{en:'Language',ru:'Язык',pr:'Yazyk',ex_ru:'Русский язык.',ex_en:'Russian language.',lv:0},
+{en:'Word',ru:'Слово',pr:'Slovo',ex_ru:'Новое слово.',ex_en:'A new word.',lv:0},
+{en:'Answer',ru:'Ответ',pr:'Otvet',ex_ru:'Правильный ответ.',ex_en:'The correct answer.',lv:0},
+{en:'Question',ru:'Вопрос',pr:'Vopros',ex_ru:'Задай вопрос.',ex_en:'Ask a question.',lv:0},
+{en:'Dictionary',ru:'Словарь',pr:'Slovar',ex_ru:'Проверь в словаре.',ex_en:'Check the dictionary.',lv:0},
+{en:'Grammar',ru:'Грамматика',pr:'Grammatika',ex_ru:'Грамматика сложная.',ex_en:'Grammar is difficult.',lv:1},
+{en:'Reading',ru:'Чтение',pr:'Chteniye',ex_ru:'Чтение полезно.',ex_en:'Reading is useful.',lv:0},
+{en:'Writing',ru:'Письмо',pr:'Pismo',ex_ru:'Письмо — важный навык.',ex_en:'Writing is an important skill.',lv:0},
+{en:'Grade',ru:'Оценка',pr:'Otsenka',ex_ru:'Хорошая оценка.',ex_en:'A good grade.',lv:0},
+{en:'Repeat',ru:'Повторять',pr:'Povtoryat',ex_ru:'Повтори, пожалуйста.',ex_en:'Please repeat.',lv:0},
+{en:'Translate',ru:'Переводить',pr:'Perevodit',ex_ru:'Переведи предложение.',ex_en:'Translate the sentence.',lv:1},
+{en:'Learn',ru:'Учить',pr:'Uchit',ex_ru:'Учи новые слова.',ex_en:'Learn new words.',lv:0},
+{en:'Test',ru:'Контрольная работа',pr:'Kontrolnaya rabota',ex_ru:'Завтра контрольная.',ex_en:'Test tomorrow.',lv:1},
+{en:'Subject',ru:'Предмет',pr:'Predmet',ex_ru:'Любимый предмет — математика.',ex_en:'Favourite subject is maths.',lv:1},
+{en:'Timetable',ru:'Расписание',pr:'Raspisaniye',ex_ru:'Посмотри расписание.',ex_en:'Check the timetable.',lv:1},
+{en:'Mathematics',ru:'Математика',pr:'Matematika',ex_ru:'Математика трудная.',ex_en:'Maths is hard.',lv:0},
+{en:'Science',ru:'Наука',pr:'Nauka',ex_ru:'Я люблю науку.',ex_en:'I love science.',lv:1},
+]},
+{id:'body',name:'Body & Health',icon:'💊',words:[
+{en:'Head',ru:'Голова',pr:'Golova',ex_ru:'Болит голова.',ex_en:'I have a headache.',lv:0},
+{en:'Face',ru:'Лицо',pr:'Litso',ex_ru:'Красивое лицо.',ex_en:'A beautiful face.',lv:0},
+{en:'Eye',ru:'Глаз',pr:'Glaz',ex_ru:'Синие глаза.',ex_en:'Blue eyes.',lv:0},
+{en:'Ear',ru:'Ухо',pr:'Ukho',ex_ru:'Болит ухо.',ex_en:'My ear hurts.',lv:0},
+{en:'Nose',ru:'Нос',pr:'Nos',ex_ru:'У меня насморк.',ex_en:'I have a runny nose.',lv:0},
+{en:'Mouth',ru:'Рот',pr:'Rot',ex_ru:'Открой рот.',ex_en:'Open your mouth.',lv:0},
+{en:'Tooth',ru:'Зуб',pr:'Zub',ex_ru:'Болит зуб.',ex_en:'I have a toothache.',lv:0},
+{en:'Hair',ru:'Волосы',pr:'Volosy',ex_ru:'Длинные волосы.',ex_en:'Long hair.',lv:0},
+{en:'Hand',ru:'Рука',pr:'Ruka',ex_ru:'Помой руки.',ex_en:'Wash your hands.',lv:0},
+{en:'Leg / Foot',ru:'Нога',pr:'Noga',ex_ru:'Болит нога.',ex_en:'My leg hurts.',lv:0},
+{en:'Back',ru:'Спина',pr:'Spina',ex_ru:'Болит спина.',ex_en:'My back hurts.',lv:0},
+{en:'Heart',ru:'Сердце',pr:'Serdtse',ex_ru:'Сердце бьётся быстро.',ex_en:'The heart beats fast.',lv:1},
+{en:'Stomach',ru:'Живот',pr:'Zhivot',ex_ru:'Болит живот.',ex_en:'My stomach hurts.',lv:0},
+{en:'Doctor',ru:'Врач',pr:'Vrach',ex_ru:'Врач помог мне.',ex_en:'The doctor helped me.',lv:0},
+{en:'Medicine',ru:'Лекарство',pr:'Lekarstvo',ex_ru:'Прими лекарство.',ex_en:'Take the medicine.',lv:0},
+{en:'Sick',ru:'Больной',pr:'Bolnoy',ex_ru:'Я заболел.',ex_en:'I am sick.',lv:0},
+{en:'Pain',ru:'Боль',pr:'Bol',ex_ru:'Сильная боль.',ex_en:'Strong pain.',lv:1},
+{en:'Rest',ru:'Отдых',pr:'Otdykh',ex_ru:'Мне нужен отдых.',ex_en:'I need rest.',lv:0},
+{en:'Sleep',ru:'Сон',pr:'Son',ex_ru:'Хороший сон важен.',ex_en:'Good sleep is important.',lv:0},
+{en:'Temperature (fever)',ru:'Температура',pr:'Temperatura',ex_ru:'У меня температура.',ex_en:'I have a temperature.',lv:0},
+{en:'Ambulance',ru:'Скорая помощь',pr:'Skoraya pomoshch',ex_ru:'Вызови скорую помощь!',ex_en:'Call an ambulance!',lv:1},
+{en:'Pharmacy',ru:'Аптека',pr:'Apteka',ex_ru:'Иди в аптеку.',ex_en:'Go to the pharmacy.',lv:0},
+{en:'Finger',ru:'Палец',pr:'Palets',ex_ru:'Я порезал палец.',ex_en:'I cut my finger.',lv:1},
+{en:'Knee',ru:'Колено',pr:'Koleno',ex_ru:'Упал на колено.',ex_en:'Fell on my knee.',lv:1},
+{en:'Shoulder',ru:'Плечо',pr:'Plecho',ex_ru:'Боль в плече.',ex_en:'Pain in the shoulder.',lv:1},
+]},
+{id:'nature',name:'Nature & Animals',icon:'🌿',words:[
+{en:'Nature',ru:'Природа',pr:'Priroda',ex_ru:'Природа России красивая.',ex_en:'The nature of Russia is beautiful.',lv:0},
+{en:'Tree',ru:'Дерево',pr:'Derevo',ex_ru:'Большое дерево.',ex_en:'A big tree.',lv:0},
+{en:'Flower',ru:'Цветок',pr:'Tsvetok',ex_ru:'Красный цветок.',ex_en:'A red flower.',lv:0},
+{en:'River',ru:'Река',pr:'Reka',ex_ru:'Мы у реки.',ex_en:'We are at the river.',lv:0},
+{en:'Sea',ru:'Море',pr:'More',ex_ru:'Я люблю море.',ex_en:'I love the sea.',lv:0},
+{en:'Mountain',ru:'Гора',pr:'Gora',ex_ru:'Высокая гора.',ex_en:'A high mountain.',lv:0},
+{en:'Forest',ru:'Лес',pr:'Les',ex_ru:'В лесу тихо.',ex_en:'It is quiet in the forest.',lv:0},
+{en:'Sky',ru:'Небо',pr:'Nebo',ex_ru:'Голубое небо.',ex_en:'Blue sky.',lv:0},
+{en:'Star',ru:'Звезда',pr:'Zvezda',ex_ru:'Яркая звезда.',ex_en:'A bright star.',lv:0},
+{en:'Moon',ru:'Луна',pr:'Luna',ex_ru:'Луна светит.',ex_en:'The moon shines.',lv:0},
+{en:'Sun',ru:'Солнце',pr:'Solntse',ex_ru:'Солнце светит.',ex_en:'The sun shines.',lv:0},
+{en:'Lake',ru:'Озеро',pr:'Ozero',ex_ru:'Красивое озеро.',ex_en:'A beautiful lake.',lv:0},
+{en:'Dog',ru:'Собака',pr:'Sobaka',ex_ru:'Большая собака.',ex_en:'A big dog.',lv:0},
+{en:'Cat',ru:'Кошка',pr:'Koshka',ex_ru:'Пушистая кошка.',ex_en:'A fluffy cat.',lv:0},
+{en:'Bird',ru:'Птица',pr:'Ptitsa',ex_ru:'Птица летит.',ex_en:'A bird is flying.',lv:0},
+{en:'Fish',ru:'Рыба',pr:'Ryba',ex_ru:'Рыба в воде.',ex_en:'Fish in water.',lv:0},
+{en:'Bear',ru:'Медведь',pr:'Medved',ex_ru:'Бурый медведь.',ex_en:'A brown bear.',lv:0},
+{en:'Wolf',ru:'Волк',pr:'Volk',ex_ru:'Волк в лесу.',ex_en:'A wolf in the forest.',lv:1},
+{en:'Fox',ru:'Лиса',pr:'Lisa',ex_ru:'Хитрая лиса.',ex_en:'A cunning fox.',lv:1},
+{en:'Horse',ru:'Лошадь',pr:'Loshad',ex_ru:'Красивая лошадь.',ex_en:'A beautiful horse.',lv:1},
+{en:'Cow',ru:'Корова',pr:'Korova',ex_ru:'Белая корова.',ex_en:'A white cow.',lv:0},
+{en:'Rabbit',ru:'Кролик',pr:'Krolik',ex_ru:'Белый кролик.',ex_en:'A white rabbit.',lv:0},
+{en:'Duck',ru:'Утка',pr:'Utka',ex_ru:'Утка плывёт.',ex_en:'A duck is swimming.',lv:0},
+{en:'Elephant',ru:'Слон',pr:'Slon',ex_ru:'Большой слон.',ex_en:'A big elephant.',lv:0},
+{en:'Tiger',ru:'Тигр',pr:'Tigr',ex_ru:'Полосатый тигр.',ex_en:'A striped tiger.',lv:0},
+{en:'Earth',ru:'Земля',pr:'Zemlya',ex_ru:'Планета Земля.',ex_en:'Planet Earth.',lv:0},
+{en:'Stone',ru:'Камень',pr:'Kamen',ex_ru:'Тяжёлый камень.',ex_en:'A heavy stone.',lv:1},
+{en:'Sand',ru:'Песок',pr:'Pesok',ex_ru:'Белый песок.',ex_en:'White sand.',lv:1},
+{en:'Ocean',ru:'Океан',pr:'Okean',ex_ru:'Тихий океан.',ex_en:'The Pacific Ocean.',lv:1},
+{en:'Island',ru:'Остров',pr:'Ostrov',ex_ru:'Маленький остров.',ex_en:'A small island.',lv:1},
+]},
+{id:'sports',name:'Sports & Hobbies',icon:'⚽',words:[
+{en:'Football',ru:'Футбол',pr:'Futbol',ex_ru:'Я играю в футбол.',ex_en:'I play football.',lv:0},
+{en:'Basketball',ru:'Баскетбол',pr:'Basketbol',ex_ru:'Баскетбол интересный.',ex_en:'Basketball is interesting.',lv:0},
+{en:'Swimming',ru:'Плавание',pr:'Plavaniye',ex_ru:'Я люблю плавание.',ex_en:'I love swimming.',lv:0},
+{en:'Running',ru:'Бег',pr:'Beg',ex_ru:'Бег полезен.',ex_en:'Running is good for health.',lv:0},
+{en:'Tennis',ru:'Теннис',pr:'Tennis',ex_ru:'Она играет в теннис.',ex_en:'She plays tennis.',lv:0},
+{en:'Chess',ru:'Шахматы',pr:'Shakhmaty',ex_ru:'Я играю в шахматы.',ex_en:'I play chess.',lv:1},
+{en:'Dancing',ru:'Танцы',pr:'Tantsy',ex_ru:'Она любит танцы.',ex_en:'She loves dancing.',lv:0},
+{en:'Music',ru:'Музыка',pr:'Muzyka',ex_ru:'Я слушаю музыку.',ex_en:'I listen to music.',lv:0},
+{en:'Concert',ru:'Концерт',pr:'Kontsert',ex_ru:'Концерт завтра.',ex_en:'The concert is tomorrow.',lv:1},
+{en:'Team',ru:'Команда',pr:'Komanda',ex_ru:'Наша команда выиграла.',ex_en:'Our team won.',lv:1},
+{en:'Ball',ru:'Мяч',pr:'Myach',ex_ru:'Брось мяч.',ex_en:'Throw the ball.',lv:0},
+{en:'Game',ru:'Игра',pr:'Igra',ex_ru:'Интересная игра.',ex_en:'An interesting game.',lv:0},
+{en:'Hobby',ru:'Хобби',pr:'Khobbi',ex_ru:'Какое у тебя хобби?',ex_en:'What is your hobby?',lv:0},
+{en:'Film / Movie',ru:'Фильм',pr:'Film',ex_ru:'Интересный фильм.',ex_en:'An interesting film.',lv:0},
+{en:'Photography',ru:'Фотография',pr:'Fotografiya',ex_ru:'Фотография — моё хобби.',ex_en:'Photography is my hobby.',lv:1},
+{en:'Cooking',ru:'Кулинария',pr:'Kulinariya',ex_ru:'Кулинария — это искусство.',ex_en:'Cooking is an art.',lv:1},
+{en:'Travel',ru:'Путешествие',pr:'Puteshestviye',ex_ru:'Я люблю путешествия.',ex_en:'I love travel.',lv:1},
+{en:'Yoga',ru:'Йога',pr:'Yoga',ex_ru:'Я занимаюсь йогой.',ex_en:'I do yoga.',lv:1},
+{en:'Win',ru:'Победа',pr:'Pobeda',ex_ru:'Победа за нами!',ex_en:'Victory is ours!',lv:1},
+{en:'Drawing',ru:'Рисование',pr:'Risovaniye',ex_ru:'Я люблю рисование.',ex_en:'I love drawing.',lv:0},
+]},
+{id:'shopping',name:'Shopping & Money',icon:'🛒',words:[
+{en:'Money',ru:'Деньги',pr:'Dengi',ex_ru:'У меня нет денег.',ex_en:'I have no money.',lv:0},
+{en:'Price',ru:'Цена',pr:'Tsena',ex_ru:'Какая цена?',ex_en:'What is the price?',lv:0},
+{en:'Ruble',ru:'Рубль',pr:'Rubl',ex_ru:'Сто рублей.',ex_en:'One hundred rubles.',lv:0},
+{en:'Discount',ru:'Скидка',pr:'Skidka',ex_ru:'Есть скидка?',ex_en:'Is there a discount?',lv:1},
+{en:'Sale',ru:'Распродажа',pr:'Rasprodazha',ex_ru:'Большая распродажа!',ex_en:'Big sale!',lv:1},
+{en:'Pay',ru:'Платить',pr:'Platit',ex_ru:'Я плачу картой.',ex_en:'I pay by card.',lv:0},
+{en:'Card',ru:'Карта',pr:'Karta',ex_ru:'Оплата картой.',ex_en:'Payment by card.',lv:0},
+{en:'Cash',ru:'Наличные',pr:'Nalichnyye',ex_ru:'Плачу наличными.',ex_en:'Paying in cash.',lv:1},
+{en:'Size',ru:'Размер',pr:'Razmer',ex_ru:'Какой размер?',ex_en:'What size?',lv:1},
+{en:'Wallet',ru:'Кошелёк',pr:'Koshelyok',ex_ru:'Где мой кошелёк?',ex_en:'Where is my wallet?',lv:0},
+{en:'Free (no cost)',ru:'Бесплатно',pr:'Besplatno',ex_ru:'Это бесплатно.',ex_en:'This is free.',lv:1},
+{en:'Expensive',ru:'Дорого',pr:'Dorogo',ex_ru:'Это очень дорого.',ex_en:'This is very expensive.',lv:0},
+{en:'Cheap',ru:'Дёшево',pr:'Dyoshevo',ex_ru:'Это дёшево.',ex_en:'This is cheap.',lv:0},
+{en:'Bag (shopping)',ru:'Пакет',pr:'Paket',ex_ru:'Дайте пакет.',ex_en:'Give me a bag.',lv:0},
+{en:'Queue',ru:'Очередь',pr:'Ochered',ex_ru:'Длинная очередь.',ex_en:'A long queue.',lv:1},
+{en:'Receipt',ru:'Чек',pr:'Chek',ex_ru:'Дайте чек.',ex_en:'Give me the receipt.',lv:1},
+{en:'Order',ru:'Заказ',pr:'Zakaz',ex_ru:'Мой заказ готов.',ex_en:'My order is ready.',lv:1},
+{en:'Change (money)',ru:'Сдача',pr:'Sdacha',ex_ru:'Дайте сдачу.',ex_en:'Give me the change.',lv:1},
+]},
+{id:'office',name:'Work & Office',icon:'💼',words:[
+{en:'Work',ru:'Работа',pr:'Rabota',ex_ru:'Я иду на работу.',ex_en:'I am going to work.',lv:0},
+{en:'Office',ru:'Офис',pr:'Ofis',ex_ru:'Я в офисе.',ex_en:'I am in the office.',lv:0},
+{en:'Meeting',ru:'Встреча',pr:'Vstrecha',ex_ru:'Встреча в 10.',ex_en:'Meeting at 10.',lv:1},
+{en:'Boss',ru:'Начальник',pr:'Nachalnik',ex_ru:'Строгий начальник.',ex_en:'A strict boss.',lv:1},
+{en:'Colleague',ru:'Коллега',pr:'Kollega',ex_ru:'Дружелюбные коллеги.',ex_en:'Friendly colleagues.',lv:1},
+{en:'Salary',ru:'Зарплата',pr:'Zarplata',ex_ru:'Хорошая зарплата.',ex_en:'A good salary.',lv:1},
+{en:'Project',ru:'Проект',pr:'Proyekt',ex_ru:'Новый проект.',ex_en:'A new project.',lv:1},
+{en:'Email',ru:'Электронная почта',pr:'Elektronnaya pochta',ex_ru:'Отправь email.',ex_en:'Send an email.',lv:0},
+{en:'Document',ru:'Документ',pr:'Dokument',ex_ru:'Подпиши документ.',ex_en:'Sign the document.',lv:1},
+{en:'Report',ru:'Отчёт',pr:'Otchyot',ex_ru:'Я пишу отчёт.',ex_en:'I am writing a report.',lv:1},
+{en:'Busy',ru:'Занятой',pr:'Zanyatoy',ex_ru:'Я очень занят.',ex_en:'I am very busy.',lv:0},
+{en:'Task',ru:'Задача',pr:'Zadacha',ex_ru:'Новая задача.',ex_en:'A new task.',lv:1},
+{en:'Plan',ru:'План',pr:'Plan',ex_ru:'У меня есть план.',ex_en:'I have a plan.',lv:0},
+{en:'Result',ru:'Результат',pr:'Rezultat',ex_ru:'Хороший результат.',ex_en:'A good result.',lv:1},
+{en:'Problem',ru:'Проблема',pr:'Problema',ex_ru:'Есть проблема.',ex_en:'There is a problem.',lv:0},
+{en:'Solution',ru:'Решение',pr:'Resheniye',ex_ru:'Хорошее решение.',ex_en:'A good solution.',lv:1},
+{en:'Success',ru:'Успех',pr:'Uspekh',ex_ru:'Желаю успеха!',ex_en:'I wish you success!',lv:1},
+{en:'Holiday',ru:'Отпуск',pr:'Otpusk',ex_ru:'Я в отпуске.',ex_en:'I am on holiday.',lv:1},
+{en:'Interview',ru:'Собеседование',pr:'Sobesedovaniye',ex_ru:'У меня собеседование.',ex_en:'I have an interview.',lv:2},
+{en:'Deadline',ru:'Срок',pr:'Srok',ex_ru:'Завтра срок сдачи.',ex_en:'The deadline is tomorrow.',lv:2},
+]},
+{id:'tech',name:'Technology & Media',icon:'💻',words:[
+{en:'Phone',ru:'Телефон',pr:'Telefon',ex_ru:'Мой телефон новый.',ex_en:'My phone is new.',lv:0},
+{en:'Smartphone',ru:'Смартфон',pr:'Smartfon',ex_ru:'Умный смартфон.',ex_en:'A smart smartphone.',lv:0},
+{en:'Computer',ru:'Компьютер',pr:'Kompyuter',ex_ru:'Работаю на компьютере.',ex_en:'I work on a computer.',lv:0},
+{en:'Laptop',ru:'Ноутбук',pr:'Noutbuk',ex_ru:'Лёгкий ноутбук.',ex_en:'A light laptop.',lv:0},
+{en:'Internet',ru:'Интернет',pr:'Internet',ex_ru:'Интернет медленный.',ex_en:'The internet is slow.',lv:0},
+{en:'Television',ru:'Телевизор',pr:'Televizor',ex_ru:'Смотрю телевизор.',ex_en:'I watch television.',lv:0},
+{en:'Camera',ru:'Фотоаппарат',pr:'Fotoaparat',ex_ru:'Фотографирую фотоаппаратом.',ex_en:'I take photos with a camera.',lv:0},
+{en:'Headphones',ru:'Наушники',pr:'Naushniki',ex_ru:'Слушаю в наушниках.',ex_en:'I listen with headphones.',lv:0},
+{en:'Charger',ru:'Зарядка',pr:'Zaryadka',ex_ru:'Где моя зарядка?',ex_en:'Where is my charger?',lv:0},
+{en:'Wi-Fi',ru:'Вай-фай',pr:'Vay-fay',ex_ru:'Есть вай-фай?',ex_en:'Is there Wi-Fi?',lv:0},
+{en:'Password',ru:'Пароль',pr:'Parol',ex_ru:'Какой пароль?',ex_en:'What is the password?',lv:0},
+{en:'App',ru:'Приложение',pr:'Prilozhenie',ex_ru:'Скачай приложение.',ex_en:'Download the app.',lv:1},
+{en:'Screen',ru:'Экран',pr:'Ekran',ex_ru:'Большой экран.',ex_en:'A big screen.',lv:0},
+{en:'Message',ru:'Сообщение',pr:'Soobshcheniye',ex_ru:'Отправь сообщение.',ex_en:'Send a message.',lv:0},
+{en:'Photo',ru:'Фото',pr:'Foto',ex_ru:'Сделай фото.',ex_en:'Take a photo.',lv:0},
+{en:'Video',ru:'Видео',pr:'Video',ex_ru:'Смотри видео.',ex_en:'Watch the video.',lv:0},
+{en:'Website',ru:'Сайт',pr:'Sayt',ex_ru:'Хороший сайт.',ex_en:'A good website.',lv:0},
+{en:'Mouse',ru:'Мышь',pr:'Mysh',ex_ru:'Компьютерная мышь.',ex_en:'A computer mouse.',lv:0},
+{en:'Keyboard',ru:'Клавиатура',pr:'Klaviatura',ex_ru:'Удобная клавиатура.',ex_en:'A comfortable keyboard.',lv:1},
+{en:'Battery',ru:'Батарея',pr:'Batareya',ex_ru:'Батарея разряжена.',ex_en:'The battery is dead.',lv:1},
+{en:'Download',ru:'Скачать',pr:'Skachat',ex_ru:'Скачай файл.',ex_en:'Download the file.',lv:1},
+{en:'Robot',ru:'Робот',pr:'Robot',ex_ru:'Умный робот.',ex_en:'A smart robot.',lv:1},
+]},
+{id:'emotions',name:'Emotions & Feelings',icon:'😊',words:[
+{en:'Happy',ru:'Счастливый',pr:'Schastlivyy',ex_ru:'Я счастливый!',ex_en:'I am happy!',lv:0},
+{en:'Sad',ru:'Грустный',pr:'Grustnyy',ex_ru:'Почему грустный?',ex_en:'Why are you sad?',lv:0},
+{en:'Tired',ru:'Усталый',pr:'Ustalyy',ex_ru:'Я очень устал.',ex_en:'I am very tired.',lv:0},
+{en:'Love',ru:'Любовь',pr:'Lyubov',ex_ru:'Любовь прекрасна.',ex_en:'Love is beautiful.',lv:0},
+{en:'Joy',ru:'Радость',pr:'Radost',ex_ru:'Какая радость!',ex_en:'What joy!',lv:1},
+{en:'Hope',ru:'Надежда',pr:'Nadezhda',ex_ru:'У меня надежда.',ex_en:'I have hope.',lv:1},
+{en:'Angry',ru:'Злой',pr:'Zloy',ex_ru:'Он злой сегодня.',ex_en:'He is angry today.',lv:0},
+{en:'Excited',ru:'Взволнованный',pr:'Vzvolnovanyy',ex_ru:'Я взволнован!',ex_en:'I am excited!',lv:1},
+{en:'Surprised',ru:'Удивлённый',pr:'Udivlyonnyy',ex_ru:'Она удивлена.',ex_en:'She is surprised.',lv:1},
+{en:'Bored',ru:'Скучающий',pr:'Skuchayushchiy',ex_ru:'Мне скучно.',ex_en:'I am bored.',lv:1},
+{en:'Afraid',ru:'Испуганный',pr:'Ispuganyy',ex_ru:'Ребёнок испуганный.',ex_en:'The child is scared.',lv:1},
+{en:'Proud',ru:'Гордый',pr:'Gordyy',ex_ru:'Я горжусь тобой.',ex_en:'I am proud of you.',lv:2},
+{en:'Calm',ru:'Спокойный',pr:'Spokoynyy',ex_ru:'Оставайся спокойным.',ex_en:'Stay calm.',lv:1},
+{en:'Nervous',ru:'Нервный',pr:'Nervnyy',ex_ru:'Я нервничаю.',ex_en:'I am nervous.',lv:1},
+{en:'Mood',ru:'Настроение',pr:'Nastroenie',ex_ru:'Хорошее настроение.',ex_en:'A good mood.',lv:1},
+{en:'Feeling',ru:'Чувство',pr:'Chuvstvo',ex_ru:'Приятное чувство.',ex_en:'A pleasant feeling.',lv:1},
+{en:'Worry',ru:'Беспокойство',pr:'Bespokoystvo',ex_ru:'Не беспокойся!',ex_en:"Don't worry!",lv:1},
+{en:'Dream',ru:'Мечта',pr:'Mechta',ex_ru:'Моя мечта.',ex_en:'My dream.',lv:1},
+{en:'Grateful',ru:'Благодарный',pr:'Blagodarnyy',ex_ru:'Я очень благодарен.',ex_en:'I am very grateful.',lv:2},
+{en:'Optimistic',ru:'Оптимистичный',pr:'Optimistichnyy',ex_ru:'Будь оптимистичным!',ex_en:'Be optimistic!',lv:2},
+]},
+{id:'grammar',name:'Connectors & Grammar Words',icon:'📝',words:[
+{en:'And',ru:'И',pr:'I',ex_ru:'Я и ты.',ex_en:'You and I.',lv:0},
+{en:'Or',ru:'Или',pr:'Ili',ex_ru:'Чай или кофе?',ex_en:'Tea or coffee?',lv:0},
+{en:'But',ru:'Но',pr:'No',ex_ru:'Хочу, но не могу.',ex_en:"I want to but I can't.",lv:0},
+{en:'Because',ru:'Потому что',pr:'Potomu chto',ex_ru:'Я дома, потому что болен.',ex_en:"I'm home because I'm sick.",lv:1},
+{en:'If',ru:'Если',pr:'Yesli',ex_ru:'Если хочешь, приходи.',ex_en:'Come if you want.',lv:1},
+{en:'Also / Too',ru:'Тоже',pr:'Tozhe',ex_ru:'Я тоже хочу.',ex_en:'I want to as well.',lv:0},
+{en:'Very',ru:'Очень',pr:'Ochen',ex_ru:'Очень вкусно.',ex_en:'Very tasty.',lv:0},
+{en:'Here',ru:'Здесь',pr:'Zdes',ex_ru:'Я здесь.',ex_en:'I am here.',lv:0},
+{en:'There',ru:'Там',pr:'Tam',ex_ru:'Он там.',ex_en:'He is there.',lv:0},
+{en:'In / At',ru:'В',pr:'V',ex_ru:'В магазине.',ex_en:'In the shop.',lv:0},
+{en:'From',ru:'Из',pr:'Iz',ex_ru:'Из России.',ex_en:'From Russia.',lv:0},
+{en:'For',ru:'Для',pr:'Dlya',ex_ru:'Для тебя.',ex_en:'For you.',lv:0},
+{en:'With',ru:'С',pr:'S',ex_ru:'С другом.',ex_en:'With a friend.',lv:0},
+{en:'Without',ru:'Без',pr:'Bez',ex_ru:'Без сахара.',ex_en:'Without sugar.',lv:1},
+{en:'After',ru:'После',pr:'Posle',ex_ru:'После урока.',ex_en:'After the lesson.',lv:0},
+{en:'Before',ru:'До',pr:'Do',ex_ru:'До завтрака.',ex_en:'Before breakfast.',lv:0},
+{en:'Near / Next to',ru:'Рядом с',pr:'Ryadom s',ex_ru:'Рядом с домом.',ex_en:'Next to the house.',lv:0},
+{en:'On top of',ru:'На',pr:'Na',ex_ru:'На столе.',ex_en:'On the table.',lv:0},
+{en:'Under',ru:'Под',pr:'Pod',ex_ru:'Под столом.',ex_en:'Under the table.',lv:0},
+{en:'Already',ru:'Уже',pr:'Uzhe',ex_ru:'Уже дома.',ex_en:'Already home.',lv:0},
+{en:'So / Therefore',ru:'Поэтому',pr:'Poetomu',ex_ru:'Поэтому я дома.',ex_en:"That's why I'm home.",lv:1},
+{en:'Although',ru:'Хотя',pr:'Khotya',ex_ru:'Хотя устал, иду.',ex_en:'Although tired, I go.',lv:2},
+]},
+{id:'phrases',name:'Useful Phrases',icon:'💬',words:[
+{en:'I need help',ru:'Мне нужна помощь',pr:'Mne nuzhna pomoshch',ex_ru:'Мне нужна помощь!',ex_en:'I need help!',lv:0},
+{en:'Where is...?',ru:'Где находится...?',pr:'Gde nakhoditsya?',ex_ru:'Где находится метро?',ex_en:'Where is the metro?',lv:0},
+{en:'How much is it?',ru:'Сколько стоит?',pr:'Skolko stoit?',ex_ru:'Сколько стоит билет?',ex_en:'How much is the ticket?',lv:0},
+{en:'The bill please',ru:'Счёт, пожалуйста',pr:'Schyot, pozhaluysta',ex_ru:'Счёт, пожалуйста!',ex_en:'The bill, please!',lv:0},
+{en:'I am lost',ru:'Я заблудился',pr:'Ya zabludilsya',ex_ru:'Я заблудился.',ex_en:'I am lost.',lv:1},
+{en:'Call the police',ru:'Вызовите полицию',pr:'Vyzovite politsiyu',ex_ru:'Вызовите полицию!',ex_en:'Call the police!',lv:1},
+{en:'Do you speak English?',ru:'Вы говорите по-английски?',pr:'Vy govorite po-angliyski?',ex_ru:'Вы говорите по-английски?',ex_en:'Do you speak English?',lv:0},
+{en:'I speak a little Russian',ru:'Я немного говорю по-русски',pr:'Ya nemnogo govoryu po-russki',ex_ru:'Я немного говорю по-русски.',ex_en:'I speak a little Russian.',lv:0},
+{en:'Can I have...?',ru:'Можно мне...?',pr:'Mozhno mne?',ex_ru:'Можно мне меню?',ex_en:'Can I have the menu?',lv:0},
+{en:'I would like...',ru:'Я бы хотел...',pr:'Ya by khotel',ex_ru:'Я бы хотел кофе.',ex_en:'I would like a coffee.',lv:1},
+{en:'Turn left',ru:'Поверни налево',pr:'Poverny nalevo',ex_ru:'Поверни налево на светофоре.',ex_en:'Turn left at the traffic light.',lv:1},
+{en:'Turn right',ru:'Поверни направо',pr:'Poverny napravo',ex_ru:'Поверни направо.',ex_en:'Turn right.',lv:1},
+{en:'Go straight',ru:'Иди прямо',pr:'Idi pryamo',ex_ru:'Иди прямо.',ex_en:'Go straight.',lv:0},
+{en:'It is near',ru:'Это близко',pr:'Eto blizko',ex_ru:'Это близко.',ex_en:'It is near.',lv:0},
+{en:'Help!',ru:'Помогите!',pr:'Pomogite!',ex_ru:'Помогите! Мне плохо.',ex_en:"Help! I'm not well.",lv:0},
+{en:'What a pity!',ru:'Как жаль!',pr:'Kak zhal!',ex_ru:'Как жаль, что ты уходишь!',ex_en:"What a pity you're leaving!",lv:1},
+{en:'I want to order',ru:'Я хочу заказать',pr:'Ya khochu zakazat',ex_ru:'Я хочу заказать пиццу.',ex_en:'I want to order pizza.',lv:0},
+{en:'What do you think?',ru:'Что ты думаешь?',pr:'Shto ty dumayesh?',ex_ru:'Что ты думаешь об этом?',ex_en:'What do you think about this?',lv:1},
+{en:'In my opinion',ru:'По моему мнению',pr:'Po moyemu mneniyu',ex_ru:'По моему мнению, это верно.',ex_en:'In my opinion, this is correct.',lv:2},
+{en:'No problem',ru:'Не проблема',pr:'Ne problema',ex_ru:'Не проблема!',ex_en:'No problem!',lv:0},
+]},
+{id:'professions',name:'Professions & Jobs',icon:'👷',words:[
+{en:'Doctor',ru:'Врач',pr:'Vrach',ex_ru:'Он хороший врач.',ex_en:'He is a good doctor.',lv:0},
+{en:'Teacher',ru:'Учитель',pr:'Uchitel',ex_ru:'Она учитель математики.',ex_en:'She is a maths teacher.',lv:0},
+{en:'Engineer',ru:'Инженер',pr:'Inzhener',ex_ru:'Мой папа инженер.',ex_en:'My dad is an engineer.',lv:0},
+{en:'Lawyer',ru:'Юрист',pr:'Yurist',ex_ru:'Она работает юристом.',ex_en:'She works as a lawyer.',lv:1},
+{en:'Police officer',ru:'Полицейский',pr:'Politseyskiy',ex_ru:'Полицейский помог нам.',ex_en:'The police officer helped us.',lv:1},
+{en:'Nurse',ru:'Медсестра',pr:'Medsestra',ex_ru:'Медсестра добрая.',ex_en:'The nurse is kind.',lv:1},
+{en:'Chef / Cook',ru:'Повар',pr:'Povar',ex_ru:'Повар готовит вкусно.',ex_en:'The chef cooks deliciously.',lv:1},
+{en:'Driver',ru:'Водитель',pr:'Voditel',ex_ru:'Хороший водитель.',ex_en:'A good driver.',lv:0},
+{en:'Pilot',ru:'Пилот',pr:'Pilot',ex_ru:'Пилот управляет самолётом.',ex_en:'The pilot flies the airplane.',lv:1},
+{en:'Firefighter',ru:'Пожарный',pr:'Pozharnyy',ex_ru:'Пожарный спасает людей.',ex_en:'The firefighter saves people.',lv:1},
+{en:'Accountant',ru:'Бухгалтер',pr:'Bukhgalter',ex_ru:'Бухгалтер считает деньги.',ex_en:'The accountant counts money.',lv:2},
+{en:'Artist',ru:'Художник',pr:'Khudozhnik',ex_ru:'Художник рисует картину.',ex_en:'The artist is painting a picture.',lv:1},
+{en:'Journalist',ru:'Журналист',pr:'Zhurnalist',ex_ru:'Журналист пишет статью.',ex_en:'The journalist is writing an article.',lv:2},
+{en:'Programmer',ru:'Программист',pr:'Programmist',ex_ru:'Программист пишет код.',ex_en:'The programmer writes code.',lv:1},
+{en:'Scientist',ru:'Учёный',pr:'Uchyonyy',ex_ru:'Учёный делает открытия.',ex_en:'The scientist makes discoveries.',lv:2},
+{en:'Singer',ru:'Певец / Певица',pr:'Pevets / Pevitsa',ex_ru:'Певица поёт красиво.',ex_en:'The singer sings beautifully.',lv:1},
+{en:'Architect',ru:'Архитектор',pr:'Arkhitektor',ex_ru:'Архитектор проектирует дома.',ex_en:'The architect designs houses.',lv:2},
+{en:'Translator',ru:'Переводчик',pr:'Perevodchik',ex_ru:'Переводчик переводит текст.',ex_en:'The translator translates the text.',lv:2},
+{en:'Businessman',ru:'Бизнесмен',pr:'Biznesmen',ex_ru:'Он успешный бизнесмен.',ex_en:'He is a successful businessman.',lv:1},
+{en:'Athlete',ru:'Спортсмен',pr:'Sportsem',ex_ru:'Спортсмен тренируется каждый день.',ex_en:'The athlete trains every day.',lv:1},
+]},
+{id:'travel',name:'Travel & Tourism',icon:'✈️',words:[
+{en:'Passport',ru:'Паспорт',pr:'Pasport',ex_ru:'Где мой паспорт?',ex_en:'Where is my passport?',lv:0},
+{en:'Visa',ru:'Виза',pr:'Viza',ex_ru:'Нужна виза.',ex_en:'A visa is needed.',lv:1},
+{en:'Hotel',ru:'Гостиница',pr:'Gostintsa',ex_ru:'Хорошая гостиница.',ex_en:'A good hotel.',lv:0},
+{en:'Luggage',ru:'Багаж',pr:'Bagazh',ex_ru:'Тяжёлый багаж.',ex_en:'Heavy luggage.',lv:1},
+{en:'Guide',ru:'Гид',pr:'Gid',ex_ru:'Опытный гид.',ex_en:'An experienced guide.',lv:1},
+{en:'Tour',ru:'Экскурсия',pr:'Ekskursiya',ex_ru:'Интересная экскурсия.',ex_en:'An interesting tour.',lv:1},
+{en:'Souvenir',ru:'Сувенир',pr:'Suvenir',ex_ru:'Купи сувенир.',ex_en:'Buy a souvenir.',lv:1},
+{en:'Country',ru:'Страна',pr:'Strana',ex_ru:'Красивая страна.',ex_en:'A beautiful country.',lv:0},
+{en:'Tourist',ru:'Турист',pr:'Turist',ex_ru:'Я турист.',ex_en:'I am a tourist.',lv:0},
+{en:'Flight',ru:'Рейс',pr:'Reys',ex_ru:'Мой рейс в 7.',ex_en:'My flight is at 7.',lv:1},
+{en:'Map',ru:'Карта',pr:'Karta',ex_ru:'Покажи карту.',ex_en:'Show me the map.',lv:0},
+{en:'Check-in',ru:'Регистрация',pr:'Registratsiya',ex_ru:'Регистрация в 14:00.',ex_en:'Check-in is at 14:00.',lv:2},
+{en:'Currency',ru:'Валюта',pr:'Valyuta',ex_ru:'Обмен валюты.',ex_en:'Currency exchange.',lv:2},
+{en:'Border',ru:'Граница',pr:'Granitsa',ex_ru:'На границе проверка.',ex_en:'Check at the border.',lv:2},
+{en:'Reservation',ru:'Бронирование',pr:'Bronirovaniye',ex_ru:'Есть бронирование.',ex_en:'There is a reservation.',lv:2},
+{en:'Delay',ru:'Задержка',pr:'Zaderzhka',ex_ru:'Задержка рейса.',ex_en:'Flight delay.',lv:2},
+]},
+{id:'health2',name:'More Health & Emergency',icon:'🏥',words:[
+{en:'Emergency',ru:'Срочно / Экстренно',pr:'Srochno',ex_ru:'Это срочно!',ex_en:'This is urgent!',lv:1},
+{en:'Help!',ru:'Помогите!',pr:'Pomogite',ex_ru:'Помогите! Мне плохо.',ex_en:"Help! I'm not well.",lv:0},
+{en:'I am ill',ru:'Я заболел',pr:'Ya zabolel',ex_ru:'Я заболел вчера.',ex_en:'I fell ill yesterday.',lv:0},
+{en:'Headache',ru:'Головная боль',pr:'Golovnaya bol',ex_ru:'У меня головная боль.',ex_en:'I have a headache.',lv:0},
+{en:'Fever',ru:'Жар',pr:'Zhar',ex_ru:'У меня жар.',ex_en:'I have a fever.',lv:1},
+{en:'Cough',ru:'Кашель',pr:'Kashel',ex_ru:'У меня кашель.',ex_en:'I have a cough.',lv:1},
+{en:'Cold (illness)',ru:'Простуда',pr:'Prostuda',ex_ru:'Я простудился.',ex_en:'I caught a cold.',lv:1},
+{en:'Allergy',ru:'Аллергия',pr:'Allergiya',ex_ru:'У меня аллергия на орехи.',ex_en:'I am allergic to nuts.',lv:2},
+{en:'Injection',ru:'Укол',pr:'Ukol',ex_ru:'Мне нужен укол.',ex_en:'I need an injection.',lv:2},
+{en:'Blood',ru:'Кровь',pr:'Krov',ex_ru:'Анализ крови.',ex_en:'Blood test.',lv:2},
+{en:'X-ray',ru:'Рентген',pr:'Rentgen',ex_ru:'Нужен рентген.',ex_en:'An X-ray is needed.',lv:2},
+{en:'Prescription',ru:'Рецепт',pr:'Retsept',ex_ru:'Рецепт от врача.',ex_en:'Prescription from the doctor.',lv:2},
+{en:'Operation',ru:'Операция',pr:'Operatsiya',ex_ru:'Операция прошла успешно.',ex_en:'The operation was successful.',lv:2},
+{en:'Healthy diet',ru:'Здоровое питание',pr:'Zdorovoye pitaniye',ex_ru:'Я соблюдаю здоровое питание.',ex_en:'I follow a healthy diet.',lv:2},
+{en:'Exercise',ru:'Упражнение',pr:'Uprazhneniye',ex_ru:'Делай упражнения каждый день.',ex_en:'Do exercises every day.',lv:1},
+]}
+];
+
+// ══════════════════════════════════════════════════
+//  PRACTICE QUESTIONS  (100)
+// ══════════════════════════════════════════════════
+const QUESTIONS=[
+{s:'Привет! ___ дела?',a:'Как',o:['Что','Как','Где']},
+{s:'Меня ___ Иван.',a:'зовут',o:['есть','зовут','нет']},
+{s:'Доброе ___!',a:'утро',o:['вечер','утро','ночь']},
+{s:'___ свидания!',a:'До',o:['После','До','Без']},
+{s:'Я ___ по-русски.',a:'говорю',o:['говорю','читаю','сплю']},
+{s:'У меня ___ кошка.',a:'есть',o:['нет','есть','был']},
+{s:'Сегодня ___ погода.',a:'хорошая',o:['хорошая','плохая','большая']},
+{s:'Я ___ в Москве.',a:'живу',o:['живу','читаю','пью']},
+{s:'Я ___ воду.',a:'пью',o:['ем','пью','сплю']},
+{s:'Мой папа ___.',a:'врач',o:['врач','книга','стол']},
+{s:'Завтра у меня ___.',a:'экзамен',o:['экзамен','погода','цвет']},
+{s:'Я ___ книгу.',a:'читаю',o:['пью','читаю','иду']},
+{s:'Снег ___.',a:'белый',o:['белый','красный','синий']},
+{s:'___ это?',a:'Что',o:['Кто','Что','Как']},
+{s:'Трава ___.',a:'зелёная',o:['красная','зелёная','жёлтая']},
+{s:'Мама на ___.',a:'кухне',o:['кухне','улице','небе']},
+{s:'Я хочу ___.',a:'спать',o:['спать','дождь','снег']},
+{s:'Кошка ___ на диване.',a:'спит',o:['бежит','спит','читает']},
+{s:'Моя машина ___.',a:'белая',o:['синяя','белая','зелёная']},
+{s:'Я ___ хлеб.',a:'ем',o:['ем','пью','иду']},
+{s:'Он ___ музыку.',a:'слушает',o:['слушает','видит','бежит']},
+{s:'Небо ___.',a:'голубое',o:['голубое','красное','чёрное']},
+{s:'Я ___ в университете.',a:'учусь',o:['учусь','сплю','бегу']},
+{s:'Сегодня ___ жарко.',a:'очень',o:['очень','нет','где']},
+{s:'Дети ___ в парке.',a:'играют',o:['спят','играют','читают']},
+{s:'Моя сестра ___.',a:'красивая',o:['красивая','быстрый','дорогой']},
+{s:'Я ___ ответ.',a:'знаю',o:['знаю','сплю','бегу']},
+{s:'Это мой ___.',a:'дом',o:['дом','вечер','язык']},
+{s:'Я ___ о тебе.',a:'думаю',o:['думаю','бегу','ем']},
+{s:'Добрый ___!',a:'вечер',o:['утро','вечер','день']},
+{s:'У меня болит ___.',a:'голова',o:['книга','голова','стол']},
+{s:'Закрой ___.',a:'дверь',o:['дверь','солнце','рис']},
+{s:'Поезд очень ___.',a:'быстрый',o:['быстрый','грустный','добрый']},
+{s:'___ за помощь!',a:'Спасибо',o:['Привет','Спасибо','Пока']},
+{s:'Я ___ русский язык.',a:'люблю',o:['люблю','бегу','закрываю']},
+{s:'Дай мне ___.',a:'ручку',o:['ручку','погоду','снег']},
+{s:'Мы ___ в парке.',a:'гуляем',o:['гуляем','летим','читаем']},
+{s:'___ ты живёшь?',a:'Где',o:['Когда','Как','Где']},
+{s:'Завтра я ___ в магазин.',a:'иду',o:['иду','сплю','пью']},
+{s:'Книга на ___.',a:'столе',o:['столе','дожде','снеге']},
+{s:'Зимой идёт ___.',a:'снег',o:['снег','сок','сыр']},
+{s:'Я ___ кофе утром.',a:'пью',o:['ем','пью','читаю']},
+{s:'У меня ___ брат.',a:'один',o:['один','сто','много']},
+{s:'Она пишет ___.',a:'письмо',o:['письмо','погоду','снег']},
+{s:'Я ___ по-русски.',a:'понимаю',o:['понимаю','сплю','бегу']},
+{s:'___, увидимся!',a:'Пока',o:['Нет','Пока','Да']},
+{s:'Это ___ телефон.',a:'новый',o:['новый','синий','грустный']},
+{s:'Урок ___ в 9.',a:'начинается',o:['начинается','летит','бежит']},
+{s:'Сколько это ___?',a:'стоит',o:['стоит','летит','читает']},
+{s:'Мой друг ___ в Москве.',a:'живёт',o:['живёт','бежит','читает']},
+{s:'Я ___ в кино вчера.',a:'был',o:['был','есть','иду']},
+{s:'___ открыто.',a:'Окно',o:['Окно','Дождь','Снег']},
+{s:'В неделе ___ дней.',a:'семь',o:['семь','три','сто']},
+{s:'Он ___ в офисе.',a:'работает',o:['работает','спит','бежит']},
+{s:'Купи ___.',a:'билет',o:['билет','дождь','снег']},
+{s:'Бабушка делает ___.',a:'пироги',o:['пироги','языки','дожди']},
+{s:'В лесу много ___.',a:'грибов',o:['грибов','снегов','языков']},
+{s:'Мой компьютер ___.',a:'старый',o:['старый','умный','добрый']},
+{s:'Позвони мне ___.',a:'позже',o:['позже','сейчас','вчера']},
+{s:'___ в России холодная.',a:'Зима',o:['Зима','Лето','Весна']},
+{s:'У меня ___ собака.',a:'есть',o:['есть','нет','был']},
+{s:'___ мой дом.',a:'Это',o:['Это','Кто','Когда']},
+{s:'Ребёнок ___.',a:'спит',o:['спит','работает','читает']},
+{s:'Вызови ___.',a:'такси',o:['такси','экзамен','словарь']},
+{s:'___ за опоздание.',a:'Извини',o:['Извини','Спасибо','Привет']},
+{s:'Апельсин ___.',a:'оранжевый',o:['оранжевый','синий','белый']},
+{s:'Сядь на ___.',a:'стул',o:['стул','дождь','вечер']},
+{s:'Я люблю ___.',a:'мороженое',o:['мороженое','ветер','ночь']},
+{s:'Возьми ___!',a:'зонт',o:['зонт','сок','урок']},
+{s:'Мне ___ эта песня.',a:'нравится',o:['нравится','бежит','летит']},
+{s:'У него ___ глаза.',a:'синие',o:['синие','красные','старые']},
+{s:'___ ты грустный?',a:'Почему',o:['Когда','Почему','Сколько']},
+{s:'Я из ___.',a:'Индии',o:['Индии','России','книги']},
+{s:'Шоколад ___.',a:'коричневый',o:['коричневый','синий','белый']},
+{s:'Лето очень ___.',a:'жаркое',o:['жаркое','холодное','грустное']},
+{s:'Мне нужна ___.',a:'помощь',o:['помощь','погода','дождь']},
+{s:'Я читаю интересную ___.',a:'книгу',o:['книгу','погоду','воду']},
+{s:'___ рублей.',a:'Сто',o:['Сто','Нет','Как']},
+{s:'Дверь ___.',a:'закрыта',o:['закрыта','читает','летит']},
+{s:'Я иду в ___.',a:'магазин',o:['магазин','небо','снег']},
+{s:'У меня болит ___.',a:'живот',o:['живот','стул','день']},
+{s:'Борщ — это ___.',a:'суп',o:['суп','торт','сок']},
+{s:'Он играет в ___.',a:'футбол',o:['футбол','кофе','словарь']},
+{s:'Москва — красивый ___.',a:'город',o:['город','язык','день']},
+{s:'Я ___ кофе.',a:'хочу',o:['хочу','сплю','читаю']},
+{s:'Весной очень ___.',a:'тепло',o:['тепло','грустно','трудно']},
+{s:'Она ___ учительница.',a:'добрая',o:['добрая','красный','плохой']},
+{s:'Наша команда ___.',a:'выиграла',o:['выиграла','спала','читала']},
+{s:'Мой брат — ___.',a:'спортсмен',o:['спортсмен','стол','снег']},
+{s:'Повар ___ вкусно.',a:'готовит',o:['готовит','бежит','читает']},
+{s:'___ нужна виза.',a:'Мне',o:['Мне','Нет','Как']},
+{s:'Он ___ в офисе каждый день.',a:'работает',o:['работает','читает','летит']},
+{s:'Я ___ телефон вчера.',a:'потерял',o:['потерял','купил','нашёл']},
+{s:'Завтра мы ___ в кино.',a:'идём',o:['идём','спим','едим']},
+{s:'Это ___ трудный язык.',a:'очень',o:['очень','нет','где']},
+{s:'Кошка сидит ___ столом.',a:'под',o:['под','над','на']},
+{s:'Книга лежит ___ столе.',a:'на',o:['на','под','в']},
+{s:'Я ___ домой поздно.',a:'пришёл',o:['пришёл','ушёл','побежал']},
+{s:'У меня ___ два брата.',a:'есть',o:['есть','нет','много']},
+];
+
+// ══════════════════════════════════════════════════
+//  GRAMMAR DATA
+// ══════════════════════════════════════════════════
+const GRAMMAR_SECTIONS=[
+{id:'alphabet',title:'🔤 The Russian Alphabet',subtitle:'33 letters · Cyrillic script · Your first step',content:`
+<div class="grammar-card">
+<h3>The Cyrillic Alphabet (Кириллица)</h3>
+<div class="rule">Russian uses the <b>Cyrillic alphabet</b> with 33 letters. Some look like Latin letters but sound different!</div>
+<table class="grammar-table">
+<tr><th>Cyrillic</th><th>Sounds Like</th><th>Example</th></tr>
+<tr><td class="ru">А а</td><td>a (father)</td><td class="trans">мама = mama</td></tr>
+<tr><td class="ru">Б б</td><td>b (book)</td><td class="trans">брат = brother</td></tr>
+<tr><td class="ru">В в</td><td>v (very)</td><td class="trans">вода = water</td></tr>
+<tr><td class="ru">Г г</td><td>g (go)</td><td class="trans">город = city</td></tr>
+<tr><td class="ru">Д д</td><td>d (dog)</td><td class="trans">дом = house</td></tr>
+<tr><td class="ru">Е е</td><td>ye (yes)</td><td class="trans">есть = to eat/there is</td></tr>
+<tr><td class="ru">Ё ё</td><td>yo (yogurt)</td><td class="trans">ёж = hedgehog</td></tr>
+<tr><td class="ru">Ж ж</td><td>zh (measure)</td><td class="trans">жить = to live</td></tr>
+<tr><td class="ru">З з</td><td>z (zoo)</td><td class="trans">знать = to know</td></tr>
+<tr><td class="ru">И и</td><td>ee (see)</td><td class="trans">иметь = to have</td></tr>
+<tr><td class="ru">К к</td><td>k (cat)</td><td class="trans">кот = cat</td></tr>
+<tr><td class="ru">Л л</td><td>l (lamp)</td><td class="trans">лампа = lamp</td></tr>
+<tr><td class="ru">М м</td><td>m (map)</td><td class="trans">мама = mom</td></tr>
+<tr><td class="ru">Н н</td><td>n (no)</td><td class="trans">нет = no</td></tr>
+<tr><td class="ru">О о</td><td>o (more)</td><td class="trans">окно = window</td></tr>
+<tr><td class="ru">П п</td><td>p (park)</td><td class="trans">парк = park</td></tr>
+<tr><td class="ru">Р р</td><td>r (rolled)</td><td class="trans">рука = hand</td></tr>
+<tr><td class="ru">С с</td><td>s (sun)</td><td class="trans">стол = table</td></tr>
+<tr><td class="ru">Т т</td><td>t (top)</td><td class="trans">там = there</td></tr>
+<tr><td class="ru">У у</td><td>oo (moon)</td><td class="trans">улица = street</td></tr>
+<tr><td class="ru">Ф ф</td><td>f (fun)</td><td class="trans">фото = photo</td></tr>
+<tr><td class="ru">Х х</td><td>kh (Bach)</td><td class="trans">хорошо = good/fine</td></tr>
+<tr><td class="ru">Ц ц</td><td>ts (cats)</td><td class="trans">центр = centre</td></tr>
+<tr><td class="ru">Ч ч</td><td>ch (child)</td><td class="trans">чай = tea</td></tr>
+<tr><td class="ru">Ш ш</td><td>sh (shop)</td><td class="trans">школа = school</td></tr>
+<tr><td class="ru">Щ щ</td><td>shch (fresh cheese)</td><td class="trans">щи = cabbage soup</td></tr>
+<tr><td class="ru">Ъ ъ</td><td>hard sign (pause)</td><td class="trans">объект = object</td></tr>
+<tr><td class="ru">Ы ы</td><td>y (roses, slightly back)</td><td class="trans">мы = we</td></tr>
+<tr><td class="ru">Ь ь</td><td>soft sign (softens)</td><td class="trans">мать = mother</td></tr>
+<tr><td class="ru">Э э</td><td>e (met)</td><td class="trans">это = this</td></tr>
+<tr><td class="ru">Ю ю</td><td>yu (you)</td><td class="trans">юг = south</td></tr>
+<tr><td class="ru">Я я</td><td>ya (yard)</td><td class="trans">я = I</td></tr>
+</table>
+<div class="tip-box"><div class="tip-label">💡 Tip</div><p>Focus on letters that look familiar but sound different: <b>В = V</b> (not B), <b>Н = N</b> (not H), <b>Р = R</b> (not P), <b>С = S</b> (not C), <b>У = OO</b> (not Y).</p></div>
+</div>`},
+
+{id:'nouns',title:'🏷️ Nouns & Gender',subtitle:'Every noun is masculine, feminine, or neuter',content:`
+<div class="grammar-card">
+<h3>Grammatical Gender (Род)</h3>
+<div class="rule">Every Russian noun has a gender: <b>masculine (м)</b>, <b>feminine (ж)</b>, or <b>neuter (н)</b>. You can often tell by the ending!</div>
+<table class="grammar-table">
+<tr><th>Gender</th><th>Typical Ending</th><th>Examples</th></tr>
+<tr><td><b style="color:#4A90D9">Masculine (м)</b></td><td>consonant, -й, -ь</td><td class="ru">стол, чай, день</td></tr>
+<tr><td><b style="color:#E91E63">Feminine (ж)</b></td><td>-а, -я, -ь</td><td class="ru">мама, неделя, ночь</td></tr>
+<tr><td><b style="color:#5CB85C">Neuter (н)</b></td><td>-о, -е</td><td class="ru">окно, море, имя</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">стол (м) — table &nbsp;|&nbsp; книга (ж) — book &nbsp;|&nbsp; окно (н) — window</div><div class="en-ex">Masculine → consonant ending; Feminine → -а ending; Neuter → -о ending</div></div>
+</div>
+<div class="tip-box"><div class="tip-label">💡 Tip</div><p>Nouns ending in <b>-ь</b> (soft sign) can be either masculine or feminine — you must memorise these: <b>день (м)</b> = day, <b>ночь (ж)</b> = night.</p></div>
+</div>
+<div class="grammar-card">
+<h3>Plural of Nouns (Множественное число)</h3>
+<div class="rule">To make most nouns plural, add <b>-ы / -и</b> (masc/fem) or <b>-а / -я</b> (neuter).</div>
+<table class="grammar-table">
+<tr><th>Singular</th><th>Plural</th><th>Translation</th></tr>
+<tr><td class="ru">стол</td><td class="ru">столы</td><td class="trans">table → tables</td></tr>
+<tr><td class="ru">книга</td><td class="ru">книги</td><td class="trans">book → books</td></tr>
+<tr><td class="ru">окно</td><td class="ru">окна</td><td class="trans">window → windows</td></tr>
+<tr><td class="ru">друг</td><td class="ru">друзья</td><td class="trans">friend → friends (irregular)</td></tr>
+<tr><td class="ru">ребёнок</td><td class="ru">дети</td><td class="trans">child → children (irregular)</td></tr>
+<tr><td class="ru">человек</td><td class="ru">люди</td><td class="trans">person → people (irregular)</td></tr>
+</table>
+</div>`},
+
+{id:'pronouns_g',title:'👤 Pronouns',subtitle:'Personal pronouns and their uses',content:`
+<div class="grammar-card">
+<h3>Personal Pronouns (Личные местоимения)</h3>
+<table class="grammar-table">
+<tr><th>Pronoun</th><th>Russian</th><th>When to use</th></tr>
+<tr><td>I</td><td class="ru">Я</td><td class="trans">Я студент. — I am a student.</td></tr>
+<tr><td>You (informal)</td><td class="ru">Ты</td><td class="trans">Use with friends, family, children</td></tr>
+<tr><td>You (formal/plural)</td><td class="ru">Вы</td><td class="trans">Use with strangers, elders, in business</td></tr>
+<tr><td>He</td><td class="ru">Он</td><td class="trans">Он врач. — He is a doctor.</td></tr>
+<tr><td>She</td><td class="ru">Она</td><td class="trans">Она студентка. — She is a student.</td></tr>
+<tr><td>It</td><td class="ru">Оно</td><td class="trans">Used for neuter nouns (rare in speech)</td></tr>
+<tr><td>We</td><td class="ru">Мы</td><td class="trans">Мы друзья. — We are friends.</td></tr>
+<tr><td>They</td><td class="ru">Они</td><td class="trans">Они работают. — They work.</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples in sentences</div>
+<div class="ex-item"><div class="ru-ex">Я люблю чай. &nbsp;→&nbsp; Ты любишь кофе?</div><div class="en-ex">I love tea. → Do you love coffee?</div></div>
+<div class="ex-item"><div class="ru-ex">Она живёт в Москве. &nbsp;→&nbsp; Мы живём в Индии.</div><div class="en-ex">She lives in Moscow. → We live in India.</div></div>
+</div>
+</div>
+<div class="grammar-card">
+<h3>Possessive Pronouns (Притяжательные местоимения)</h3>
+<table class="grammar-table">
+<tr><th>Owner</th><th>Masc noun</th><th>Fem noun</th><th>Plural</th></tr>
+<tr><td>I → my</td><td class="ru">мой</td><td class="ru">моя</td><td class="ru">мои</td></tr>
+<tr><td>You → your</td><td class="ru">твой</td><td class="ru">твоя</td><td class="ru">твои</td></tr>
+<tr><td>He → his</td><td class="ru">его</td><td class="ru">его</td><td class="ru">его</td></tr>
+<tr><td>She → her</td><td class="ru">её</td><td class="ru">её</td><td class="ru">её</td></tr>
+<tr><td>We → our</td><td class="ru">наш</td><td class="ru">наша</td><td class="ru">наши</td></tr>
+<tr><td>They → their</td><td class="ru">их</td><td class="ru">их</td><td class="ru">их</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">Это мой дом. &nbsp;|&nbsp; Это моя книга. &nbsp;|&nbsp; Это мои друзья.</div><div class="en-ex">This is my house. | This is my book. | These are my friends.</div></div>
+<div class="ex-item"><div class="ru-ex">Где твой телефон? &nbsp;→&nbsp; Это его машина.</div><div class="en-ex">Where is your phone? → This is his car.</div></div>
+</div>
+</div>`},
+
+{id:'verbs_g',title:'⚡ Verbs & Conjugation',subtitle:'How Russian verbs change by person and tense',content:`
+<div class="grammar-card">
+<h3>Present Tense — Type 1 Verbs (-ать / -ять)</h3>
+<div class="rule">Most common verb group. Remove <b>-ать</b>, then add endings based on the subject.</div>
+<table class="grammar-table">
+<tr><th>Person</th><th>Ending</th><th>читать (to read)</th><th>знать (to know)</th></tr>
+<tr><td>Я (I)</td><td class="ru">-ю / -у</td><td class="ru">читаю</td><td class="ru">знаю</td></tr>
+<tr><td>Ты (You)</td><td class="ru">-ешь</td><td class="ru">читаешь</td><td class="ru">знаешь</td></tr>
+<tr><td>Он/Она (He/She)</td><td class="ru">-ет</td><td class="ru">читает</td><td class="ru">знает</td></tr>
+<tr><td>Мы (We)</td><td class="ru">-ем</td><td class="ru">читаем</td><td class="ru">знаем</td></tr>
+<tr><td>Вы (You pl.)</td><td class="ru">-ете</td><td class="ru">читаете</td><td class="ru">знаете</td></tr>
+<tr><td>Они (They)</td><td class="ru">-ют / -ут</td><td class="ru">читают</td><td class="ru">знают</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">Я читаю книгу. &nbsp;→&nbsp; Ты читаешь газету?</div><div class="en-ex">I am reading a book. → Are you reading the newspaper?</div></div>
+<div class="ex-item"><div class="ru-ex">Он знает русский. &nbsp;→&nbsp; Мы знаем друг друга.</div><div class="en-ex">He knows Russian. → We know each other.</div></div>
+</div>
+</div>
+<div class="grammar-card">
+<h3>Present Tense — Type 2 Verbs (-ить / -еть)</h3>
+<div class="rule">Second verb group. Remove <b>-ить</b> / <b>-еть</b>, add these endings.</div>
+<table class="grammar-table">
+<tr><th>Person</th><th>Ending</th><th>говорить (to speak)</th><th>видеть (to see)</th></tr>
+<tr><td>Я</td><td class="ru">-ю / -у</td><td class="ru">говорю</td><td class="ru">вижу</td></tr>
+<tr><td>Ты</td><td class="ru">-ишь</td><td class="ru">говоришь</td><td class="ru">видишь</td></tr>
+<tr><td>Он/Она</td><td class="ru">-ит</td><td class="ru">говорит</td><td class="ru">видит</td></tr>
+<tr><td>Мы</td><td class="ru">-им</td><td class="ru">говорим</td><td class="ru">видим</td></tr>
+<tr><td>Вы</td><td class="ru">-ите</td><td class="ru">говорите</td><td class="ru">видите</td></tr>
+<tr><td>Они</td><td class="ru">-ят / -ат</td><td class="ru">говорят</td><td class="ru">видят</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">Я говорю по-русски. &nbsp;→&nbsp; Она говорит по-английски.</div><div class="en-ex">I speak Russian. → She speaks English.</div></div>
+<div class="ex-item"><div class="ru-ex">Они говорят быстро. &nbsp;→&nbsp; Ты видишь его?</div><div class="en-ex">They speak fast. → Do you see him?</div></div>
+</div>
+</div>
+<div class="grammar-card">
+<h3>Key Irregular Verbs</h3>
+<table class="grammar-table">
+<tr><th>Verb</th><th>Я</th><th>Ты</th><th>Он/Она</th><th>Мы</th><th>Они</th></tr>
+<tr><td><b>быть</b> (to be)</td><td class="ru">—</td><td class="ru">—</td><td class="ru">—</td><td class="ru">—</td><td class="ru">—</td></tr>
+<tr><td><b>хотеть</b> (to want)</td><td class="ru">хочу</td><td class="ru">хочешь</td><td class="ru">хочет</td><td class="ru">хотим</td><td class="ru">хотят</td></tr>
+<tr><td><b>идти</b> (to go)</td><td class="ru">иду</td><td class="ru">идёшь</td><td class="ru">идёт</td><td class="ru">идём</td><td class="ru">идут</td></tr>
+<tr><td><b>жить</b> (to live)</td><td class="ru">живу</td><td class="ru">живёшь</td><td class="ru">живёт</td><td class="ru">живём</td><td class="ru">живут</td></tr>
+<tr><td><b>есть</b> (to eat)</td><td class="ru">ем</td><td class="ru">ешь</td><td class="ru">ест</td><td class="ru">едим</td><td class="ru">едят</td></tr>
+<tr><td><b>пить</b> (to drink)</td><td class="ru">пью</td><td class="ru">пьёшь</td><td class="ru">пьёт</td><td class="ru">пьём</td><td class="ru">пьют</td></tr>
+</table>
+<div class="tip-box"><div class="tip-label">💡 Note about "to be"</div><p>In the present tense, Russian drops the verb "to be" (быть). <b>Я студент</b> = "I (am a) student". The verb only appears in past and future tenses.</p></div>
+</div>`},
+
+{id:'past',title:'⏪ Past Tense',subtitle:'How to talk about things that already happened',content:`
+<div class="grammar-card">
+<h3>Past Tense (Прошедшее время)</h3>
+<div class="rule">In Russian, past tense depends on the <b>gender</b> of the subject, not the person. Remove <b>-ть</b> and add the endings below.</div>
+<table class="grammar-table">
+<tr><th>Subject</th><th>Ending</th><th>читать</th><th>говорить</th><th>жить</th></tr>
+<tr><td>Я/Ты/Он (male)</td><td class="ru">-л</td><td class="ru">читал</td><td class="ru">говорил</td><td class="ru">жил</td></tr>
+<tr><td>Я/Ты/Она (female)</td><td class="ru">-ла</td><td class="ru">читала</td><td class="ru">говорила</td><td class="ru">жила</td></tr>
+<tr><td>Оно (neuter)</td><td class="ru">-ло</td><td class="ru">читало</td><td class="ru">говорило</td><td class="ru">жило</td></tr>
+<tr><td>Мы/Вы/Они</td><td class="ru">-ли</td><td class="ru">читали</td><td class="ru">говорили</td><td class="ru">жили</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">Я читал книгу. (male speaker)</div><div class="en-ex">I was reading a book.</div></div>
+<div class="ex-item"><div class="ru-ex">Она говорила по-русски очень хорошо.</div><div class="en-ex">She spoke Russian very well.</div></div>
+<div class="ex-item"><div class="ru-ex">Мы жили в Москве два года.</div><div class="en-ex">We lived in Moscow for two years.</div></div>
+</div>
+<div class="tip-box"><div class="tip-label">💡 Key past tense words</div><p><b>вчера</b> = yesterday · <b>раньше</b> = before/earlier · <b>уже</b> = already · <b>давно</b> = long ago · <b>никогда не</b> = never</p></div>
+</div>`},
+
+{id:'future',title:'⏩ Future Tense',subtitle:'How to talk about plans and the future',content:`
+<div class="grammar-card">
+<h3>Simple Future — using "буду" (будет = will be)</h3>
+<div class="rule">For imperfective verbs (ongoing actions), use <b>буду + infinitive</b>.</div>
+<table class="grammar-table">
+<tr><th>Person</th><th>Form of быть</th><th>Example (читать)</th></tr>
+<tr><td>Я</td><td class="ru">буду</td><td class="ru">Я буду читать.</td></tr>
+<tr><td>Ты</td><td class="ru">будешь</td><td class="ru">Ты будешь читать.</td></tr>
+<tr><td>Он/Она</td><td class="ru">будет</td><td class="ru">Он будет читать.</td></tr>
+<tr><td>Мы</td><td class="ru">будем</td><td class="ru">Мы будем читать.</td></tr>
+<tr><td>Вы</td><td class="ru">будете</td><td class="ru">Вы будете читать.</td></tr>
+<tr><td>Они</td><td class="ru">будут</td><td class="ru">Они будут читать.</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">Завтра я буду работать дома.</div><div class="en-ex">Tomorrow I will work at home.</div></div>
+<div class="ex-item"><div class="ru-ex">Она будет учиться в университете.</div><div class="en-ex">She will study at university.</div></div>
+<div class="ex-item"><div class="ru-ex">Мы будем ждать тебя.</div><div class="en-ex">We will wait for you.</div></div>
+</div>
+<div class="tip-box"><div class="tip-label">💡 Key future tense words</div><p><b>завтра</b> = tomorrow · <b>скоро</b> = soon · <b>потом</b> = then/later · <b>через час</b> = in an hour · <b>в следующем году</b> = next year</p></div>
+</div>`},
+
+{id:'cases',title:'📦 Cases (Падежи)',subtitle:'The 6 cases of Russian — how nouns change by role in a sentence',content:`
+<div class="grammar-card">
+<h3>Overview of the 6 Cases</h3>
+<div class="rule">Russian has <b>6 grammatical cases</b>. Nouns change their endings depending on their role in the sentence.</div>
+<table class="grammar-table">
+<tr><th>#</th><th>Case</th><th>Question</th><th>Use</th></tr>
+<tr><td>1</td><td><b>Nominative</b> (Им.)</td><td class="ru">Кто? Что?</td><td class="trans">Subject of sentence</td></tr>
+<tr><td>2</td><td><b>Accusative</b> (Вин.)</td><td class="ru">Кого? Что?</td><td class="trans">Direct object</td></tr>
+<tr><td>3</td><td><b>Genitive</b> (Род.)</td><td class="ru">Кого? Чего?</td><td class="trans">Possession, absence</td></tr>
+<tr><td>4</td><td><b>Dative</b> (Дат.)</td><td class="ru">Кому? Чему?</td><td class="trans">Indirect object (to/for)</td></tr>
+<tr><td>5</td><td><b>Instrumental</b> (Тв.)</td><td class="ru">Кем? Чем?</td><td class="trans">With, by means of</td></tr>
+<tr><td>6</td><td><b>Prepositional</b> (Пр.)</td><td class="ru">О ком? О чём?</td><td class="trans">Location, about</td></tr>
+</table>
+</div>
+<div class="grammar-card">
+<h3>Case Examples — "стол" (table, masc.)</h3>
+<table class="grammar-table">
+<tr><th>Case</th><th>Form</th><th>Example</th><th>Translation</th></tr>
+<tr><td>Nominative</td><td class="ru">стол</td><td class="ru">Стол большой.</td><td class="trans">The table is big.</td></tr>
+<tr><td>Accusative</td><td class="ru">стол</td><td class="ru">Я вижу стол.</td><td class="trans">I see the table.</td></tr>
+<tr><td>Genitive</td><td class="ru">стола</td><td class="ru">Нет стола.</td><td class="trans">There is no table.</td></tr>
+<tr><td>Dative</td><td class="ru">столу</td><td class="ru">Иди к столу.</td><td class="trans">Go to the table.</td></tr>
+<tr><td>Instrumental</td><td class="ru">столом</td><td class="ru">Он за столом.</td><td class="trans">He is at/behind the table.</td></tr>
+<tr><td>Prepositional</td><td class="ru">столе</td><td class="ru">Книга на столе.</td><td class="trans">The book is on the table.</td></tr>
+</table>
+<div class="tip-box"><div class="tip-label">💡 Beginner Tip</div><p>Don't panic! Start with <b>Nominative</b> (subject) and <b>Accusative</b> (object). As you progress, learn the others. Even knowing 2 cases lets you build basic sentences!</p></div>
+</div>
+<div class="grammar-card">
+<h3>Prepositional Case — Most Useful for Beginners</h3>
+<div class="rule">Used after prepositions <b>в</b> (in), <b>на</b> (on/at), <b>о</b> (about). Masculine/neuter → add <b>-е</b>. Feminine (-а/-я) → change to <b>-е</b>.</div>
+<table class="grammar-table">
+<tr><th>Nominative</th><th>Prepositional</th><th>Example</th></tr>
+<tr><td class="ru">Москва</td><td class="ru">Москве</td><td class="ru">в Москве (in Moscow)</td></tr>
+<tr><td class="ru">дом</td><td class="ru">доме</td><td class="ru">в доме (in the house)</td></tr>
+<tr><td class="ru">школа</td><td class="ru">школе</td><td class="ru">в школе (at school)</td></tr>
+<tr><td class="ru">университет</td><td class="ru">университете</td><td class="ru">в университете (at university)</td></tr>
+<tr><td class="ru">стол</td><td class="ru">столе</td><td class="ru">на столе (on the table)</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">Я живу в Москве. &nbsp;→&nbsp; Книга на столе.</div><div class="en-ex">I live in Moscow. → The book is on the table.</div></div>
+<div class="ex-item"><div class="ru-ex">Он учится в университете. &nbsp;→&nbsp; Мы говорим о погоде.</div><div class="en-ex">He studies at university. → We are talking about the weather.</div></div>
+</div>
+</div>`},
+
+{id:'negation',title:'🚫 Negation',subtitle:'How to say "no", "not", and "never" in Russian',content:`
+<div class="grammar-card">
+<h3>Making Sentences Negative</h3>
+<div class="rule">Place <b>не</b> directly before the verb or word you want to negate.</div>
+<table class="grammar-table">
+<tr><th>Positive</th><th>Negative</th></tr>
+<tr><td class="ru">Я знаю.</td><td class="ru">Я не знаю.</td></tr>
+<tr><td class="trans">I know.</td><td class="trans">I don't know.</td></tr>
+<tr><td class="ru">Он говорит по-русски.</td><td class="ru">Он не говорит по-русски.</td></tr>
+<tr><td class="trans">He speaks Russian.</td><td class="trans">He doesn't speak Russian.</td></tr>
+<tr><td class="ru">Я ем мясо.</td><td class="ru">Я не ем мясо.</td></tr>
+<tr><td class="trans">I eat meat.</td><td class="trans">I don't eat meat.</td></tr>
+</table>
+</div>
+<div class="grammar-card">
+<h3>Double Negation (Russian Uses It!)</h3>
+<div class="rule">Unlike English, Russian uses <b>double negatives</b>. Both the pronoun and verb are negated.</div>
+<table class="grammar-table">
+<tr><th>Negative word</th><th>Meaning</th><th>Example</th><th>Translation</th></tr>
+<tr><td class="ru">никто</td><td>nobody</td><td class="ru">Никто не знает.</td><td class="trans">Nobody knows.</td></tr>
+<tr><td class="ru">ничего</td><td>nothing</td><td class="ru">Я ничего не вижу.</td><td class="trans">I see nothing.</td></tr>
+<tr><td class="ru">никогда</td><td>never</td><td class="ru">Я никогда не лгу.</td><td class="trans">I never lie.</td></tr>
+<tr><td class="ru">нигде</td><td>nowhere</td><td class="ru">Я нигде не был.</td><td class="trans">I was nowhere.</td></tr>
+</table>
+<div class="tip-box"><div class="tip-label">💡 Rule</div><p>In Russian: <b>Никто не знает</b> (Nobody not knows) is CORRECT Russian. Double negation is standard and required!</p></div>
+</div>
+<div class="grammar-card">
+<h3>"There is no..." — Using нет + Genitive</h3>
+<div class="rule">To say something doesn't exist or isn't present, use <b>нет + genitive case</b>.</div>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">У меня нет денег.</div><div class="en-ex">I have no money.</div></div>
+<div class="ex-item"><div class="ru-ex">Здесь нет интернета.</div><div class="en-ex">There is no internet here.</div></div>
+<div class="ex-item"><div class="ru-ex">Нет молока в холодильнике.</div><div class="en-ex">There is no milk in the fridge.</div></div>
+</div>
+</div>`},
+
+{id:'adjectives_g',title:'✨ Adjectives',subtitle:'Adjectives agree with nouns in gender, number, and case',content:`
+<div class="grammar-card">
+<h3>Adjective Agreement (Согласование прилагательных)</h3>
+<div class="rule">Adjectives must match the noun in <b>gender, number, and case</b>. Most adjectives follow this pattern:</div>
+<table class="grammar-table">
+<tr><th>Gender</th><th>Ending</th><th>Example (новый)</th><th>Translation</th></tr>
+<tr><td>Masculine</td><td class="ru">-ый / -ий</td><td class="ru">новый телефон</td><td class="trans">new phone</td></tr>
+<tr><td>Feminine</td><td class="ru">-ая / -яя</td><td class="ru">новая книга</td><td class="trans">new book</td></tr>
+<tr><td>Neuter</td><td class="ru">-ое / -ее</td><td class="ru">новое окно</td><td class="trans">new window</td></tr>
+<tr><td>Plural</td><td class="ru">-ые / -ие</td><td class="ru">новые друзья</td><td class="trans">new friends</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">More examples with "красивый" (beautiful)</div>
+<div class="ex-item"><div class="ru-ex">красивый город &nbsp;|&nbsp; красивая девушка &nbsp;|&nbsp; красивое озеро</div><div class="en-ex">beautiful city | beautiful girl | beautiful lake</div></div>
+</div>
+</div>
+<div class="grammar-card">
+<h3>Comparative Adjectives (Сравнительная степень)</h3>
+<div class="rule">To compare, use <b>более + adjective</b> OR add suffix <b>-ее / -е / -ше</b>.</div>
+<table class="grammar-table">
+<tr><th>Base</th><th>Comparative</th><th>Example</th></tr>
+<tr><td class="ru">большой (big)</td><td class="ru">больше</td><td class="ru">Москва больше Дели.</td></tr>
+<tr><td class="ru">маленький (small)</td><td class="ru">меньше</td><td class="ru">Эта комната меньше.</td></tr>
+<tr><td class="ru">хороший (good)</td><td class="ru">лучше</td><td class="ru">Это лучше.</td></tr>
+<tr><td class="ru">плохой (bad)</td><td class="ru">хуже</td><td class="ru">Это хуже.</td></tr>
+<tr><td class="ru">быстрый (fast)</td><td class="ru">быстрее</td><td class="ru">Он бегает быстрее.</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">Эта книга интереснее той.</div><div class="en-ex">This book is more interesting than that one.</div></div>
+<div class="ex-item"><div class="ru-ex">Сегодня лучше, чем вчера.</div><div class="en-ex">Today is better than yesterday.</div></div>
+</div>
+</div>`},
+
+{id:'questions',title:'❓ Asking Questions',subtitle:'How to form questions in Russian',content:`
+<div class="grammar-card">
+<h3>Yes/No Questions</h3>
+<div class="rule">Add a <b>question mark</b> and change your <b>intonation</b>. No special word order change needed!</div>
+<table class="grammar-table">
+<tr><th>Statement</th><th>Question</th><th>Translation</th></tr>
+<tr><td class="ru">Ты говоришь по-русски.</td><td class="ru">Ты говоришь по-русски?</td><td class="trans">Do you speak Russian?</td></tr>
+<tr><td class="ru">Он работает.</td><td class="ru">Он работает?</td><td class="trans">Does he work?</td></tr>
+<tr><td class="ru">Это твой дом.</td><td class="ru">Это твой дом?</td><td class="trans">Is this your house?</td></tr>
+</table>
+</div>
+<div class="grammar-card">
+<h3>Question Words (Вопросительные слова)</h3>
+<table class="grammar-table">
+<tr><th>Word</th><th>Russian</th><th>Example</th></tr>
+<tr><td>Who?</td><td class="ru">Кто?</td><td class="ru">Кто это? — Who is this?</td></tr>
+<tr><td>What?</td><td class="ru">Что?</td><td class="ru">Что это? — What is this?</td></tr>
+<tr><td>Where?</td><td class="ru">Где?</td><td class="ru">Где ты? — Where are you?</td></tr>
+<tr><td>Where to?</td><td class="ru">Куда?</td><td class="ru">Куда ты идёшь? — Where are you going?</td></tr>
+<tr><td>When?</td><td class="ru">Когда?</td><td class="ru">Когда ты придёшь? — When will you come?</td></tr>
+<tr><td>Why?</td><td class="ru">Почему?</td><td class="ru">Почему ты плачешь? — Why are you crying?</td></tr>
+<tr><td>How?</td><td class="ru">Как?</td><td class="ru">Как дела? — How are you?</td></tr>
+<tr><td>How much?</td><td class="ru">Сколько?</td><td class="ru">Сколько стоит? — How much does it cost?</td></tr>
+<tr><td>Which?</td><td class="ru">Какой?</td><td class="ru">Какой цвет? — Which colour?</td></tr>
+<tr><td>Whose?</td><td class="ru">Чей?</td><td class="ru">Чей это телефон? — Whose phone is this?</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Full question examples</div>
+<div class="ex-item"><div class="ru-ex">Где находится ближайшая аптека?</div><div class="en-ex">Where is the nearest pharmacy?</div></div>
+<div class="ex-item"><div class="ru-ex">Почему ты не пришёл вчера?</div><div class="en-ex">Why didn't you come yesterday?</div></div>
+<div class="ex-item"><div class="ru-ex">Сколько это стоит?</div><div class="en-ex">How much does this cost?</div></div>
+</div>
+</div>`},
+
+{id:'prepositions',title:'🗺️ Prepositions',subtitle:'Common prepositions and which case they require',content:`
+<div class="grammar-card">
+<h3>Most Common Prepositions</h3>
+<table class="grammar-table">
+<tr><th>Preposition</th><th>Meaning</th><th>Case Required</th><th>Example</th></tr>
+<tr><td class="ru">в</td><td>in, at, to</td><td>Prepositional (location) / Accusative (direction)</td><td class="ru">в школе / в школу</td></tr>
+<tr><td class="ru">на</td><td>on, at, to</td><td>Prepositional (location) / Accusative (direction)</td><td class="ru">на столе / на стол</td></tr>
+<tr><td class="ru">из</td><td>from, out of</td><td>Genitive</td><td class="ru">из России</td></tr>
+<tr><td class="ru">с</td><td>with, from</td><td>Instrumental / Genitive</td><td class="ru">с другом / с работы</td></tr>
+<tr><td class="ru">без</td><td>without</td><td>Genitive</td><td class="ru">без сахара</td></tr>
+<tr><td class="ru">до</td><td>until, before, to</td><td>Genitive</td><td class="ru">до работы</td></tr>
+<tr><td class="ru">после</td><td>after</td><td>Genitive</td><td class="ru">после урока</td></tr>
+<tr><td class="ru">для</td><td>for</td><td>Genitive</td><td class="ru">для тебя</td></tr>
+<tr><td class="ru">о / об</td><td>about</td><td>Prepositional</td><td class="ru">о погоде</td></tr>
+<tr><td class="ru">у</td><td>at, near (possession)</td><td>Genitive</td><td class="ru">у меня есть</td></tr>
+<tr><td class="ru">к</td><td>towards, to</td><td>Dative</td><td class="ru">к другу</td></tr>
+<tr><td class="ru">между</td><td>between</td><td>Instrumental</td><td class="ru">между нами</td></tr>
+<tr><td class="ru">под</td><td>under</td><td>Instrumental</td><td class="ru">под столом</td></tr>
+<tr><td class="ru">над</td><td>above</td><td>Instrumental</td><td class="ru">над городом</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Key examples</div>
+<div class="ex-item"><div class="ru-ex">Я живу в Москве. &nbsp;→&nbsp; Я еду в Москву.</div><div class="en-ex">I live in Moscow. → I am going to Moscow.</div></div>
+<div class="ex-item"><div class="ru-ex">Книга на столе. &nbsp;→&nbsp; Положи книгу на стол.</div><div class="en-ex">The book is on the table. → Put the book on the table.</div></div>
+<div class="ex-item"><div class="ru-ex">У меня есть машина. &nbsp;→&nbsp; Без тебя скучно.</div><div class="en-ex">I have a car. → It's boring without you.</div></div>
+</div>
+</div>`},
+
+{id:'numbers_g',title:'🔢 Numbers & Time',subtitle:'How to use numbers, tell time, and express dates',content:`
+<div class="grammar-card">
+<h3>Cardinal Numbers (Количественные числительные)</h3>
+<div class="rule">After numbers, nouns change case: <b>1</b> → Nominative; <b>2-4</b> → Genitive singular; <b>5+</b> → Genitive plural.</div>
+<table class="grammar-table">
+<tr><th>Number</th><th>Pattern</th><th>Example</th></tr>
+<tr><td class="ru">1</td><td>noun stays nominative</td><td class="ru">1 рубль, 1 книга</td></tr>
+<tr><td class="ru">2, 3, 4</td><td>genitive singular</td><td class="ru">2 рубля, 3 книги</td></tr>
+<tr><td class="ru">5–20</td><td>genitive plural</td><td class="ru">5 рублей, 10 книг</td></tr>
+<tr><td class="ru">21, 31...</td><td>same as 1</td><td class="ru">21 рубль, 21 книга</td></tr>
+</table>
+</div>
+<div class="grammar-card">
+<h3>Telling the Time (Который час?)</h3>
+<table class="grammar-table">
+<tr><th>Time</th><th>Russian</th><th>Literal meaning</th></tr>
+<tr><td>1:00</td><td class="ru">Час.</td><td class="trans">An hour.</td></tr>
+<tr><td>2:00</td><td class="ru">Два часа.</td><td class="trans">Two hours.</td></tr>
+<tr><td>5:00</td><td class="ru">Пять часов.</td><td class="trans">Five hours.</td></tr>
+<tr><td>3:30</td><td class="ru">Половина четвёртого.</td><td class="trans">Half of the fourth.</td></tr>
+<tr><td>3:15</td><td class="ru">Четверть четвёртого.</td><td class="trans">Quarter of the fourth.</td></tr>
+<tr><td>3:45</td><td class="ru">Без четверти четыре.</td><td class="trans">Without a quarter (to) four.</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Time expressions</div>
+<div class="ex-item"><div class="ru-ex">Сколько времени? &nbsp;→&nbsp; Сейчас три часа.</div><div class="en-ex">What time is it? → It is now three o'clock.</div></div>
+<div class="ex-item"><div class="ru-ex">В котором часу? &nbsp;→&nbsp; В половине второго.</div><div class="en-ex">At what time? → At half past one.</div></div>
+</div>
+</div>`},
+
+{id:'sentences',title:'📖 Sentence Structure',subtitle:'How Russian sentences are built — flexible word order',content:`
+<div class="grammar-card">
+<h3>Basic Sentence Order</h3>
+<div class="rule">Russian word order is <b>flexible</b> due to cases, but the default is <b>Subject → Verb → Object (SVO)</b>, same as English.</div>
+<table class="grammar-table">
+<tr><th>Pattern</th><th>Example</th><th>Translation</th></tr>
+<tr><td>SVO (neutral)</td><td class="ru">Я читаю книгу.</td><td class="trans">I am reading a book.</td></tr>
+<tr><td>OVS (emphasis on object)</td><td class="ru">Книгу я читаю.</td><td class="trans">THE BOOK (specifically) I am reading.</td></tr>
+<tr><td>VSO (emphasis on action)</td><td class="ru">Читаю я книгу.</td><td class="trans">I AM READING (not doing something else).</td></tr>
+</table>
+<div class="tip-box"><div class="tip-label">💡 Key insight</div><p>Because nouns carry case endings that show their grammatical role, you can rearrange words for stylistic emphasis without changing the meaning!</p></div>
+</div>
+<div class="grammar-card">
+<h3>Expressing "I have" — У меня есть</h3>
+<div class="rule">Russian doesn't have a direct translation of "to have". Instead it uses: <b>У + [pronoun genitive] + есть + [noun]</b></div>
+<table class="grammar-table">
+<tr><th>English</th><th>Russian</th></tr>
+<tr><td>I have</td><td class="ru">У меня есть</td></tr>
+<tr><td>You have</td><td class="ru">У тебя есть</td></tr>
+<tr><td>He has</td><td class="ru">У него есть</td></tr>
+<tr><td>She has</td><td class="ru">У неё есть</td></tr>
+<tr><td>We have</td><td class="ru">У нас есть</td></tr>
+<tr><td>They have</td><td class="ru">У них есть</td></tr>
+</table>
+<div class="ex-block"><div class="ex-label">Examples</div>
+<div class="ex-item"><div class="ru-ex">У меня есть кошка.</div><div class="en-ex">I have a cat.</div></div>
+<div class="ex-item"><div class="ru-ex">У него есть машина.</div><div class="en-ex">He has a car.</div></div>
+<div class="ex-item"><div class="ru-ex">У нас нет времени.</div><div class="en-ex">We don't have time. (нет = negation)</div></div>
+</div>
+</div>
+<div class="grammar-card">
+<h3>Useful Conjunctions (Союзы)</h3>
+<table class="grammar-table">
+<tr><th>Conjunction</th><th>Russian</th><th>Example</th></tr>
+<tr><td>and</td><td class="ru">и</td><td class="ru">Я и ты — мы друзья.</td></tr>
+<tr><td>but</td><td class="ru">но</td><td class="ru">Я хочу, но не могу.</td></tr>
+<tr><td>or</td><td class="ru">или</td><td class="ru">Чай или кофе?</td></tr>
+<tr><td>because</td><td class="ru">потому что</td><td class="ru">Я устал, потому что работал.</td></tr>
+<tr><td>that (subordinate)</td><td class="ru">что</td><td class="ru">Я думаю, что он прав.</td></tr>
+<tr><td>if</td><td class="ru">если</td><td class="ru">Если хочешь, приходи.</td></tr>
+<tr><td>although</td><td class="ru">хотя</td><td class="ru">Хотя устал, я иду.</td></tr>
+<tr><td>so / therefore</td><td class="ru">поэтому</td><td class="ru">Я устал, поэтому сплю.</td></tr>
+</table>
+</div>`},
+];
+
+// ══════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════
+let learnedWords=new Set();
+try{learnedWords=new Set(JSON.parse(localStorage.getItem('ru_master_learned')||'[]'));}catch(e){}
+let activeFilter='all';
+let pCorrect=0,pWrong=0;
+const answeredQ={};
+let activeGrammarId=GRAMMAR_SECTIONS[0].id;
+
+// ══════════════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════════════
+function switchTab(tab,el){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+tab).classList.add('active');
+  document.getElementById('vocab-controls').style.display=tab==='vocab'?'':'none';
+}
+
+// ══════════════════════════════════════════════════
+//  EMOJI
+// ══════════════════════════════════════════════════
+const HAPPY=['🎉','😄','🥳','😁','🤩','✨','🎊','😆','💪','🌟'];
+const SAD=['😢','😭','😔','😿','💔','😩','🥺','😞'];
+function showEmoji(ok){
+  const arr=ok?HAPPY:SAD;
+  const el=document.getElementById('emoji-burst');
+  el.textContent=arr[Math.floor(Math.random()*arr.length)];
+  el.classList.remove('hide');el.classList.add('show');
+  setTimeout(()=>{el.classList.remove('show');el.classList.add('hide');},1100);
+}
+
+// ══════════════════════════════════════════════════
+//  VOCAB
+// ══════════════════════════════════════════════════
+function saveProgress(){
+  try{localStorage.setItem('ru_master_learned',JSON.stringify([...learnedWords]));}catch(e){}
+  const total=CATEGORIES.reduce((s,c)=>s+c.words.length,0);
+  const n=learnedWords.size;
+  const pct=(n/total*100).toFixed(1);
+  document.getElementById('learned-count').textContent=n;
+  document.getElementById('progress-pct').textContent=pct+'%';
+  document.getElementById('progress-bar').style.width=pct+'%';
+  updateSMPanel();
+}
+function toggleLearned(id,btn){
+  if(learnedWords.has(id)){learnedWords.delete(id);btn.closest('.word-card').classList.remove('learned');btn.style.background='';btn.style.color='';}
+  else{learnedWords.add(id);btn.closest('.word-card').classList.add('learned');btn.style.background='#5CB85C';btn.style.color='#fff';}
+  saveProgress();
+}
+function openSM(){document.getElementById('sm-panel').classList.add('open');updateSMPanel();}
+function closeSM(){document.getElementById('sm-panel').classList.remove('open');}
+function markSection(id){const c=CATEGORIES.find(x=>x.id===id);if(!c)return;c.words.forEach((_,i)=>learnedWords.add(`${id}-${i}`));saveProgress();filterWords();}
+function clearSection(id){const c=CATEGORIES.find(x=>x.id===id);if(!c)return;c.words.forEach((_,i)=>learnedWords.delete(`${id}-${i}`));saveProgress();filterWords();}
+function markAllGlobal(){CATEGORIES.forEach(c=>markSection(c.id));}
+function clearAllGlobal(){CATEGORIES.forEach(c=>clearSection(c.id));}
+function updateSMPanel(){
+  document.getElementById('sm-section-list').innerHTML=CATEGORIES.map(cat=>{
+    const t=cat.words.length,l=cat.words.filter((_,i)=>learnedWords.has(`${cat.id}-${i}`)).length,p=t?Math.round(l/t*100):0;
+    return `<div class="sm-section-item"><div class="sm-sec-header"><span class="sm-sec-icon">${cat.icon}</span><span class="sm-sec-name">${cat.name}</span><span class="sm-sec-count">${l}/${t}</span><div class="sm-sec-btns"><button class="sm-sec-btn mark" onclick="markSection('${cat.id}');updateSMPanel();filterWords()">✅</button><button class="sm-sec-btn clear" onclick="clearSection('${cat.id}');updateSMPanel();filterWords()">🗑️</button></div></div><div class="sm-sec-progress"><div class="sm-sec-fill" style="width:${p}%"></div></div></div>`;
+  }).join('');
+}
+function buildFilters(){
+  const row=document.getElementById('filter-row');
+  [{id:'all',name:'🌍 All'},{id:'level-0',name:'🔴 Beginner'},{id:'level-1',name:'🔵 Elementary'},{id:'level-2',name:'⭐ Intermediate'},...CATEGORIES.map(c=>({id:c.id,name:c.icon+' '+c.name}))].forEach(chip=>{
+    const btn=document.createElement('button');
+    btn.className='chip'+(chip.id==='all'?' active':'');
+    btn.textContent=chip.name;
+    btn.onclick=()=>{document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');activeFilter=chip.id;filterWords();};
+    row.appendChild(btn);
+  });
+}
+function levelBadge(l){return `<span class="level-badge level-${l}">${['Beginner','Elementary','Intermediate'][l]}</span>`;}
+function filterWords(){
+  const q=document.getElementById('search').value.toLowerCase();
+  let shown=0,html='';
+  CATEGORIES.forEach(cat=>{
+    let words=cat.words.map((w,i)=>({...w,idx:i}));
+    if(activeFilter!=='all'){
+      if(activeFilter.startsWith('level-')){const lv=parseInt(activeFilter.split('-')[1]);words=words.filter(w=>w.lv===lv);}
+      else if(activeFilter!==cat.id)words=[];
+    }
+    if(q)words=words.filter(w=>w.en.toLowerCase().includes(q)||w.ru.toLowerCase().includes(q)||w.pr.toLowerCase().includes(q));
+    if(!words.length)return;
+    shown+=words.length;
+    const cards=words.map(w=>{
+      const id=`${cat.id}-${w.idx}`,il=learnedWords.has(id);
+      return `<div class="word-card ${il?'learned':''}" data-cat="${cat.id}"><div class="card-top"><div><div class="english">${w.en}</div><div class="russian">${w.ru}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">${levelBadge(w.lv)}<button class="learn-btn" onclick="toggleLearned('${id}',this)" style="${il?'background:#5CB85C;color:#fff':''}">✓</button></div></div><div class="pronunciation">/ ${w.pr} /</div><div class="example"><div class="ru-sentence">${w.ex_ru}</div><div class="en-sentence">${w.ex_en}</div></div></div>`;
+    }).join('');
+    html+=`<div class="category-section cat-${cat.id}"><div class="cat-header"><span class="cat-icon">${cat.icon}</span><span class="cat-title">${cat.name}</span><div class="cat-actions"><button class="cat-action-btn mark-all" onclick="markSection('${cat.id}')">✅ All</button><button class="cat-action-btn clear-sec" onclick="clearSection('${cat.id}')">🗑️</button></div><span class="cat-count">${words.length} words</span></div><div class="word-grid">${cards}</div></div>`;
+  });
+  document.getElementById('showing-count').textContent=shown;
+  document.getElementById('main-content').innerHTML=shown?html:`<div class="no-results"><div style="font-size:48px;margin-bottom:12px">🔍</div><p>No words found for "${q}"</p></div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  PRACTICE
+// ══════════════════════════════════════════════════
+function updatePracticeStats(){
+  const t=pCorrect+pWrong;
+  document.getElementById('p-correct').textContent=pCorrect;
+  document.getElementById('p-wrong').textContent=pWrong;
+  document.getElementById('p-total').textContent=t;
+  const p=t?Math.round(pCorrect/t*100):0;
+  document.getElementById('p-pct').textContent=p+'%';
+  document.getElementById('p-bar').style.width=p+'%';
+}
+function answerQ(qi,chosen,correct){
+  if(answeredQ[qi]!==undefined)return;
+  const ok=chosen===correct;
+  answeredQ[qi]=ok;
+  if(ok)pCorrect++;else pWrong++;
+  updatePracticeStats();showEmoji(ok);
+  const card=document.getElementById('qcard-'+qi);
+  card.classList.add(ok?'correct-card':'wrong-card');
+  card.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add('correct');else if(b.dataset.val===chosen&&!ok)b.classList.add('wrong');});
+  const fb=document.getElementById('fb-'+qi);
+  const blk=card.querySelector('.blank');if(blk)blk.textContent=correct;
+  fb.textContent=ok?'✅ Correct! Well done!':`❌ Wrong. Correct: ${correct}`;
+  fb.className='q-feedback '+(ok?'ok':'fail');
+}
+function buildPractice(){
+  document.getElementById('practice-grid').innerHTML=QUESTIONS.map((q,i)=>{
+    const parts=q.s.split('___');
+    const sent=parts[0]+'<span class="blank">___</span>'+(parts[1]||'');
+    const opts=q.o.map((op,j)=>`<button class="opt-btn" data-val="${op}" onclick="answerQ(${i},'${op}','${q.a}')"><span class="opt-letter">${['A','B','C'][j]}</span>${op}</button>`).join('');
+    return `<div class="q-card" id="qcard-${i}"><div class="q-num">Q${i+1} of ${QUESTIONS.length}</div><div class="q-sentence">${sent}</div><div class="options">${opts}</div><div class="q-feedback" id="fb-${i}"></div></div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════
+//  GRAMMAR
+// ══════════════════════════════════════════════════
+function buildGrammar(){
+  const nav=document.getElementById('grammar-nav');
+  const sec=document.getElementById('grammar-sections');
+  GRAMMAR_SECTIONS.forEach(g=>{
+    const btn=document.createElement('button');
+    btn.className='grammar-nav-btn'+(g.id===activeGrammarId?' active':'');
+    btn.textContent=g.title.substring(0,30)+(g.title.length>30?'…':'');
+    btn.onclick=()=>{
+      document.querySelectorAll('.grammar-nav-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.grammar-section').forEach(s=>s.classList.remove('active'));
+      document.getElementById('gs-'+g.id).classList.add('active');
+    };
+    nav.appendChild(btn);
+    const div=document.createElement('div');
+    div.className='grammar-section'+(g.id===activeGrammarId?' active':'');
+    div.id='gs-'+g.id;
+    div.innerHTML=`<div class="grammar-section-title">${g.title}</div><div class="grammar-section-subtitle">${g.subtitle}</div>${g.content}`;
+    sec.appendChild(div);
+  });
+}
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+const TOTAL=CATEGORIES.reduce((s,c)=>s+c.words.length,0);
+document.getElementById('total-count').textContent=TOTAL;
+document.getElementById('showing-count').textContent=TOTAL;
+buildFilters();filterWords();saveProgress();buildPractice();updatePracticeStats();buildGrammar();
+</script>
+</body>
+</html>
